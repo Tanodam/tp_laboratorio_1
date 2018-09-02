@@ -1,0 +1,84 @@
+# depslib dependency file v1.0
+1535759470 source:c:\users\dami\documents\utn\tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"utn.h"
+
+1535901746 
+
+1535747724 c:\users\dami\documents\utn\tp1\utn.h
+
+1535759678 source:c:\users\dami\documents\utn\tp1\utn.c
+	<stdio.h>
+	<stdlib.h>
+	"utn.h"
+
+1535747724 source:c:\users\dami\documents\utn\tp1\utn.h
+
+1535813284 source:/home/alumno/Descargas/trabajos_en_clase/TP1/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio_ext.h>
+	"utn.h"
+
+1535817742 .h>
+
+1535810138 /home/alumno/Descargas/trabajos_en_clase/TP1/utn.h
+
+1535813284 source:/home/alumno/Descargas/trabajos_en_clase/TP1/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<unistd.h>
+	"utn.h"
+
+1535810138 source:/home/alumno/Descargas/trabajos_en_clase/TP1/utn.h
+
+1535817742 source:/home/alumno/Descargas/TP 1Distinto/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio_ext.h>
+	"utn.h"
+
+1535816106 /home/alumno/Descargas/TP 1Distinto/utn.h
+
+1535817341 source:/home/alumno/Descargas/TP 1Distinto/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<unistd.h>
+	"utn.h"
+
+1535816106 source:/home/alumno/Descargas/TP 1Distinto/utn.h
+
+1535901702 source:c:\users\dami\documents\utn\trabajos_en_clase\tp 1distinto\main.c
+	<stdio.h>
+	<stdlib.h>
+	"utn.h"
+
+1535901474 c:\users\dami\documents\utn\trabajos_en_clase\tp 1distinto\utn.h
+
+1535901746 source:c:\users\dami\documents\utn\trabajos_en_clase\tp 1distinto\utn.c
+	<stdlib.h>
+	<unistd.h>
+	"utn.h"
+	<stdio.h>
+	<conio.h>
+
+1535901474 source:c:\users\dami\documents\utn\trabajos_en_clase\tp 1distinto\utn.h
+
+1535910160 source:/home/damian/Escritorio/TP 1Distinto/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio_ext.h>
+	"utn.h"
+
+1535890676 /home/damian/Escritorio/TP 1Distinto/utn.h
+
+1535909917 source:/home/damian/Escritorio/TP 1Distinto/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<unistd.h>
+	"utn.h"
+	<stdio.h>
+
+1535890676 source:/home/damian/Escritorio/TP 1Distinto/utn.h
+
