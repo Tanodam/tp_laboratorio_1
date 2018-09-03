@@ -82,3 +82,17 @@
 
 1535890676 source:/home/damian/Escritorio/TP 1Distinto/utn.h
 
+1535936698 source:/home/damian/Escritorio/tp_laboratorio_1/TP1/main.c
+	"utn.h"
+
+1535936512 /home/damian/Escritorio/tp_laboratorio_1/TP1/utn.h
+
+1535936668 source:/home/damian/Escritorio/tp_laboratorio_1/TP1/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<unistd.h>
+	"utn.h"
+	<stdio.h>
+
+1535936512 source:/home/damian/Escritorio/tp_laboratorio_1/TP1/utn.h
+

@@ -20,4 +20,4 @@ float ingresaOperando(char identificadorOperando);
 void limpiarPantalla();
 void pausarPantalla();
 void myFlush();
-
+int comienzaCalculadora();
