@@ -163,10 +163,9 @@ float multiplicacion (float numeroA, float numeroB)
     return resultado;
 }
 /**
-*\brief Realiza el cociente de los numeros A y B.
-*\param Recibe el valor de la variable A
-*\param Recibe el valor de la variable B
-*\return Retorna el cociente entre A y B
+*\brief Realiza el factorial de un numero
+*\param Recibe el valor de la variable a la cual se debe calcular su factorial
+*\return Retorna el factorial.
 */
 long factorial(int numero)
 {
