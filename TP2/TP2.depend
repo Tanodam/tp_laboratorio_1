@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1538255976 source:/home/damian/tp_laboratorio_1/TP2/array.c
+	<stdio_ext.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	"utn.h"
+	"array.h"
+	"validator.h"
+	"arrayEmployees.h"
+
+1538246433 /home/damian/tp_laboratorio_1/TP2/array.h
+
+1538244518 /home/damian/tp_laboratorio_1/TP2/utn.h
+
+1538241887 /home/damian/tp_laboratorio_1/TP2/validator.h
+
+1538258428 source:/home/damian/tp_laboratorio_1/TP2/main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdio_ext.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"arrayEmployees.h"
+	"array.h"
+
+1538258156 /home/damian/tp_laboratorio_1/TP2/arrayEmployees.h
+
+1538253742 source:/home/damian/tp_laboratorio_1/TP2/validator.c
+	<stdio.h>
+	<stdlib.h>
+	"array.h"
+	"string.h"
+	"ctype.h"
+	"utn.h"
+
+1538258410 source:/home/damian/tp_laboratorio_1/TP2/arrayEmployees.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"utn.h"
+	"arrayEmployees.h"
+	"array.h"
+	"validator.h"
+
+1538246048 source:/home/damian/tp_laboratorio_1/TP2/utn.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"utn.h"
+
