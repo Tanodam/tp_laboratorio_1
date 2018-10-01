@@ -22,10 +22,10 @@ void empleado_borrarPorID(Empleado* pBuffer,int limite, int indice);
 int empleado_existeID(Empleado* pBuffer,int limite, int ID);
 int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite);
 int empleado_construirMenu();
-short int empleado_ordenar(Empleado* pBuffer, int limite);
 int empleado_construirModificar();
 int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,int edad,float salario,int sector);
-int empleado_sort(Empleado* pBuffer,int limite);
+int empleado_ordenarApellido(Empleado* pBuffer,int limite,int orden);
+int empleado_sortSector(Empleado* pBuffer,int limite,int orden);
 
 
 

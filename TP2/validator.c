@@ -100,29 +100,6 @@ int array_StringMailEsValido (char* pArray, int limiteArray)
     return retorno;
 }
 /**
-*\brief [Funcion interna de GetStringInt] Valida que el usuario solo haya ingresado caracteres numericos del 0 al 9
-*\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
-*\param limiteArray tamaño del array
-*\return Exito=0 y Error=-1
-*/
-int array_StringIntEsValido (char* pArray, int limiteArray)
-{
-    int retorno = 0;
-    int i;
-
-    for (i=0; i<strlen(pArray)-1; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
-        {
-            retorno = 1;
-            if(pArray[i] == ' ' && (pArray[i] < '0' || pArray[i] > '9'))
-            {
-                retorno = 0;
-                break;
-            }
-        }
-    return retorno;
-}
-
-/**
 *\brief [Funcion interna de GetStringFloat] Valida que el usuario solo haya ingresado caracteres del 0 al 9
 *\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
 *\param limiteArray tamaño del array
@@ -132,23 +109,46 @@ int array_StringFloatEsValido (char* pArray, int limiteArray)
 {
     int retorno = 0;
     int i;
-    int indexPuntos = 0;
+    int indexPuntos=0;
+    int contadorPuntos=0;
 
-    if(pArray!= NULL && limiteArray > 0)
+    if  ((pArray != NULL && limiteArray > 0 && strlen(pArray) > 0) &&
+        (( pArray[0] == '+' && pArray[1] != '.') || (pArray[0]>='0' && pArray[0]<='9')))
     {
         retorno = 1;
-        for (i=0; i<strlen(pArray)-1; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+        for (i=1; i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
             {
-                if(pArray[i] != '.' && (pArray[i] < '0' || pArray[i] > '9'))
+                if(pArray[i]=='.')
+                {
+                    contadorPuntos++;
+                }
+                if((pArray[i]<'0' && pArray[i]>'9') || contadorPuntos >1)
                 {
                     retorno = 0;
                     break;
                 }
-                if(pArray[i]== '.')
-                {
-                    indexPuntos=i;
-                }
-                if(indexPuntos == 0)
+            }
+    }
+    return retorno;
+}
+/**
+*\brief [Funcion interna de GetStringFloat] Valida que el usuario solo haya ingresado caracteres del 0 al 9
+*\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
+*\param limiteArray tamaño del array
+*\return Exito=0 y Error=-1
+*/
+int array_StringIntEsValido(char* pArray, int limiteArray)
+{
+    int retorno = 0;
+    int i;
+
+
+    if  ((pArray != NULL && limiteArray > 0 && strlen(pArray) > 0))
+    {
+        retorno = 1;
+        for (i=1; i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+            {
+                if(!(pArray[i] >= '0' || pArray[i] <= '9'))
                 {
                     retorno = 0;
                     break;

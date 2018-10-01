@@ -30,13 +30,11 @@ void limpiarPantalla()
 */
 void pausarPantalla()
 {
-    //system("pause"); //Para Windows
     printf("Presione ENTER para continuar");
     myFlush();
     getchar();
-
 }
-static int getString (char* pArray, int limiteaArray)
+int static getString (char* pArray, int limiteaArray)
 {
     int retorno = -1;
     char buffer[BUFFER_STR];
@@ -56,7 +54,6 @@ static int getString (char* pArray, int limiteaArray)
     return retorno;
 
 }
-
 
 /**
 *\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringCharEsValido.
@@ -205,7 +202,7 @@ char array_getTelefono(char* pArray, int limiteArray, char* mensaje, char* mensa
 
     return retorno;
 }
-char array_getStringFloat(char* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
+int array_getStringFloat(float* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
 {
     int retorno= -1;
     int contadorIntentos= 0;
@@ -217,14 +214,16 @@ char array_getStringFloat(char* pArray, int limiteArray, char* mensaje, char* me
         {
             printf("%s", mensaje);
             contadorIntentos++;
-            if(getString(buffer,limiteArray)==0)
+            if(!getString(buffer,limiteArray)&&
+               (array_StringFloatEsValido(buffer, limiteArray)))
             {
-                if(array_StringFloatEsValido(buffer, limiteArray)==1)
-                {
-                    strncpy(pArray,buffer,limiteArray);
+                    myFlush();
+                    *pArray=atof(buffer);
                     retorno = 0;
+                    break;
 
-                }
+
+            }
                 else
                 {
                     printf("%s", mensajeError);
@@ -233,11 +232,54 @@ char array_getStringFloat(char* pArray, int limiteArray, char* mensaje, char* me
                         printf("\nSe han superado los intenos maximos permitidos");
                         retorno = -1;
                         break;
+
+
                     }
                 }
 
             }
-        }while(contadorIntentos <= reintentos);
+        while(contadorIntentos <= reintentos);
+    }
+
+    return retorno;
+}
+int array_getStringInt(int* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
+{
+    int retorno= -1;
+    int contadorIntentos= 0;
+    char buffer[BUFFER_STR];
+
+    if(pArray != NULL && limiteArray > 0)
+    {
+        do
+        {
+            printf("%s", mensaje);
+            contadorIntentos++;
+            if(!getString(buffer,limiteArray)&&
+               (array_StringIntEsValido(buffer, limiteArray)))
+            {
+                    myFlush();
+                    *pArray=atoi(buffer);
+                    retorno = 0;
+                    break;
+
+
+            }
+                else
+                {
+                    printf("%s", mensajeError);
+                    if(contadorIntentos==reintentos)
+                    {
+                        printf("\nSe han superado los intenos maximos permitidos");
+                        retorno = -1;
+                        break;
+
+
+                    }
+                }
+
+            }
+        while(contadorIntentos <= reintentos);
     }
 
     return retorno;
@@ -288,59 +330,6 @@ int array_calcularMaximo(int* pArray, int limiteArray, int* pMaximo)
         }
     }
     return retorno;
-}
-int array_init(int* pArray, int limiteArray, int valor)
-{
-    int retorno=-1;
-    int i;
-
-    if(pArray != NULL && limiteArray > 0)
-    {
-        for(i=0;i<limiteArray;i++)
-        {
-            pArray[i] = valor;
-        }
-        retorno = 0;
-    }
-    return retorno;
-}
-void array_swap(int* elementoA, int*elementoB)
-{
-    int auxiliar;
-    auxiliar= *elementoA;
-    *elementoA= *elementoB;
-    *elementoB=auxiliar;
-
-}
-void array_ordenarArray(int* pArray, int limiteArray, int orden)
-{
-    int i;
-    //int auxiliar;
-    int continuar = 1;
-
-    while(continuar)
-    {
-        continuar = 0;
-        for (i = 1; i < limiteArray; i++)
-        {
-            if (pArray[i] < pArray[i - 1] && orden==0)
-            {
-                array_swap(&pArray[i], &pArray[i-1]);
-//                auxiliar = pArray[i];
-//                pArray[i] = pArray[i - 1];
-//                pArray[i - 1] = auxiliar;
-                continuar = 1;
-            }
-            else if (pArray[i] > pArray[i - 1] && orden==1)
-            {
-                array_swap(&pArray[i], &pArray[i-1]);
-//                auxiliar = pArray[i];
-//                pArray[i] = pArray[i - 1];
-//                pArray[i - 1] = auxiliar;
-                continuar = 1;
-            }
-        }
-    }
 }
 void array_imprimirIntArray(int* pArray, int limiteArray)
 {

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1538255976 source:/home/damian/tp_laboratorio_1/TP2/array.c
+1538368203 source:/home/damian/tp_laboratorio_1/TP2/array.c
 	<stdio_ext.h>
 	<stdlib.h>
 	"string.h"
@@ -9,13 +9,13 @@
 	"validator.h"
 	"arrayEmployees.h"
 
-1538246433 /home/damian/tp_laboratorio_1/TP2/array.h
+1538368258 /home/damian/tp_laboratorio_1/TP2/array.h
 
 1538244518 /home/damian/tp_laboratorio_1/TP2/utn.h
 
-1538241887 /home/damian/tp_laboratorio_1/TP2/validator.h
+1538368231 /home/damian/tp_laboratorio_1/TP2/validator.h
 
-1538258428 source:/home/damian/tp_laboratorio_1/TP2/main.c
+1538350487 source:/home/damian/tp_laboratorio_1/TP2/main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdio_ext.h>
@@ -26,9 +26,9 @@
 	"arrayEmployees.h"
 	"array.h"
 
-1538258156 /home/damian/tp_laboratorio_1/TP2/arrayEmployees.h
+1538362132 /home/damian/tp_laboratorio_1/TP2/arrayEmployees.h
 
-1538253742 source:/home/damian/tp_laboratorio_1/TP2/validator.c
+1538368647 source:/home/damian/tp_laboratorio_1/TP2/validator.c
 	<stdio.h>
 	<stdlib.h>
 	"array.h"
@@ -36,7 +36,7 @@
 	"ctype.h"
 	"utn.h"
 
-1538258410 source:/home/damian/tp_laboratorio_1/TP2/arrayEmployees.c
+1538368203 source:/home/damian/tp_laboratorio_1/TP2/arrayEmployees.c
 	<stdio_ext.h>
 	<stdlib.h>
 	<string.h>
@@ -46,7 +46,8 @@
 	"array.h"
 	"validator.h"
 
-1538246048 source:/home/damian/tp_laboratorio_1/TP2/utn.c
+1538352840 source:/home/damian/tp_laboratorio_1/TP2/utn.c
+	"utn.h"
 	<stdio_ext.h>
 	<stdlib.h>
 	<string.h>
