@@ -12,7 +12,7 @@ void pausarPantalla();
 char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos);
 char array_getMail(char* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos);
 char array_getTelefono(char* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos);
-int array_getStringFloat(float* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos);
+int array_getStringFloat(float* pArray, int limiteArray,int minimo, int maximo, char* mensaje, char* mensajeError, int reintentos);
 int array_getStringInt(int* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos);
 int array_mostrar(int* pArray, int limiteArray);
 int array_calcularMaximo(int* pArray, int limiteArray, int* pMaximo);

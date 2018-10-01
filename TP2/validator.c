@@ -94,6 +94,7 @@ int array_StringMailEsValido (char* pArray, int limiteArray)
             if (indexArroba == 0 || indexPunto == 0)
             {
                 retorno = 0;
+                break;
             }
         }
     }
@@ -107,29 +108,33 @@ int array_StringMailEsValido (char* pArray, int limiteArray)
 */
 int array_StringFloatEsValido (char* pArray, int limiteArray)
 {
-    int retorno = 0;
-    int i;
-    int indexPuntos=0;
-    int contadorPuntos=0;
+   int i=0;
+   int retorno = 0;
+   int contadorPuntos = 0;
 
-    if  ((pArray != NULL && limiteArray > 0 && strlen(pArray) > 0) &&
-        (( pArray[0] == '+' && pArray[1] != '.') || (pArray[0]>='0' && pArray[0]<='9')))
-    {
-        retorno = 1;
-        for (i=1; i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+
+   if(pArray != NULL && limiteArray > 0)
+   {
+       retorno = 1;
+       for(i=0;i < limiteArray && pArray[i] != '\0';i++)
+       {
+            if(pArray[i] == '.')
             {
-                if(pArray[i]=='.')
+                contadorPuntos++;
+            }
+            if(pArray[i] < '0' || pArray[i] > '9')
+            {
+                if(pArray[i] != '.' || pArray[0] == '.' || contadorPuntos > 1 || pArray[strlen(pArray)-1] == '.')
                 {
-                    contadorPuntos++;
-                }
-                if((pArray[i]<'0' && pArray[i]>'9') || contadorPuntos >1)
-                {
-                    retorno = 0;
-                    break;
+                retorno = 0;
+                break;
                 }
             }
-    }
-    return retorno;
+
+       }
+   }
+
+return retorno;
 }
 /**
 *\brief [Funcion interna de GetStringFloat] Valida que el usuario solo haya ingresado caracteres del 0 al 9
@@ -141,18 +146,22 @@ int array_StringIntEsValido(char* pArray, int limiteArray)
 {
     int retorno = 0;
     int i;
+    int stringIngresado;
+    stringIngresado=strlen(pArray)-1;
 
-
-    if  ((pArray != NULL && limiteArray > 0 && strlen(pArray) > 0))
+    if  ((pArray != NULL && limiteArray > 0))
     {
         retorno = 1;
-        for (i=1; i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+        for (i=0; i < limiteArray; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
             {
-                if(!(pArray[i] >= '0' || pArray[i] <= '9'))
-                {
-                    retorno = 0;
-                    break;
-                }
+                if( pArray[stringIngresado]!='0' && pArray[stringIngresado]!='1' && pArray[stringIngresado]!='2' &&
+                    pArray[stringIngresado]!='3' && pArray[stringIngresado]!='4' && pArray[stringIngresado]!='5' &&
+                    pArray[stringIngresado]!='6' && pArray[stringIngresado]!='7' && pArray[stringIngresado]!='8' &&
+                    pArray[stringIngresado]!='9') ///Verifica que no haya espacios ni caracteres fuera de rango
+                    {
+                        retorno = 0;
+                        break;
+                    }
             }
     }
     return retorno;

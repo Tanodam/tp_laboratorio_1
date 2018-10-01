@@ -79,8 +79,7 @@ char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensaje
             myFlush();
             if(!getString(buffer,limiteArray))
             {
-                myFlush();
-
+                retorno = 0;
                 for(i=0;i<limiteArray;i++)
                 {
                     myFlush();
@@ -92,7 +91,6 @@ char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensaje
                     buffer[0]=toupper(buffer[0]); ///Convierto a mayusculas el primer caracter.
                     strncpy(pArray,buffer,limiteArray);///Copio en el puntero a pArray el valor de string
                     myFlush();
-                    retorno = 0;
                     break;
                 }
                 else
@@ -202,7 +200,7 @@ char array_getTelefono(char* pArray, int limiteArray, char* mensaje, char* mensa
 
     return retorno;
 }
-int array_getStringFloat(float* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
+int array_getStringFloat(float* pArray, int limiteArray,int minimo, int maximo, char* mensaje, char* mensajeError, int reintentos)
 {
     int retorno= -1;
     int contadorIntentos= 0;
@@ -215,12 +213,13 @@ int array_getStringFloat(float* pArray, int limiteArray, char* mensaje, char* me
             printf("%s", mensaje);
             contadorIntentos++;
             if(!getString(buffer,limiteArray)&&
-               (array_StringFloatEsValido(buffer, limiteArray)))
+               (array_StringFloatEsValido(buffer, limiteArray)) &&
+               (atoi(buffer)<=maximo && atoi(buffer)>=minimo))
             {
-                    myFlush();
                     *pArray=atof(buffer);
                     retorno = 0;
                     break;
+
 
 
             }
@@ -255,15 +254,11 @@ int array_getStringInt(int* pArray, int limiteArray, char* mensaje, char* mensaj
         {
             printf("%s", mensaje);
             contadorIntentos++;
-            if(!getString(buffer,limiteArray)&&
-               (array_StringIntEsValido(buffer, limiteArray)))
+            retorno = 0;
+            if(!getString(buffer,limiteArray) && array_StringIntEsValido(buffer, limiteArray))
             {
-                    myFlush();
                     *pArray=atoi(buffer);
-                    retorno = 0;
                     break;
-
-
             }
                 else
                 {
@@ -273,14 +268,12 @@ int array_getStringInt(int* pArray, int limiteArray, char* mensaje, char* mensaj
                         printf("\nSe han superado los intenos maximos permitidos");
                         retorno = -1;
                         break;
-
-
                     }
                 }
 
             }
         while(contadorIntentos <= reintentos);
-    }
+        }
 
     return retorno;
 }

@@ -54,3 +54,48 @@
 	<time.h>
 	"utn.h"
 
+1538420835 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/array.c
+	<stdio_ext.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	"utn.h"
+	"array.h"
+	"validator.h"
+	"arrayEmployees.h"
+
+1538395100 /home/xubuntu/Escritorio/tp_laboratorio_1/TP2/utn.h
+
+1538409559 /home/xubuntu/Escritorio/tp_laboratorio_1/TP2/array.h
+
+1538402799 /home/xubuntu/Escritorio/tp_laboratorio_1/TP2/validator.h
+
+1538422980 /home/xubuntu/Escritorio/tp_laboratorio_1/TP2/arrayEmployees.h
+
+1538420405 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/main.c
+	"arrayEmployees.h"
+
+1538395100 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/utn.c
+	"utn.h"
+	<stdio_ext.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"utn.h"
+
+1538417577 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/validator.c
+	<stdio.h>
+	<stdlib.h>
+	"array.h"
+	"string.h"
+	"ctype.h"
+	"utn.h"
+
+1538423807 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/arrayEmployees.c
+	<stdio_ext.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"arrayEmployees.h"
+	"array.h"
+

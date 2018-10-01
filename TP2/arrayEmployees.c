@@ -1,12 +1,12 @@
 #include <stdio_ext.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include "utn.h"
+
 #include "arrayEmployees.h"
 #include "array.h"
-#include "validator.h"
-static void swap(Empleado* valorA,Empleado* valorB);
+
+static void swap(Empleado* empelado1,Empleado* empleado2);
 
 /**
 *\brief Realiza el swap entre dos elementos
@@ -14,22 +14,24 @@ static void swap(Empleado* valorA,Empleado* valorB);
 *\param valorB es el puntero del segundo elemento
 *\return Retorna void
 */
-static void swap(Empleado* valorA,Empleado* valorB)
+static void swap(Empleado* empelado1,Empleado* empleado2)
 {
-    Empleado auxiliar;//TIPO employee
-    auxiliar = *valorA;
-    *valorA = *valorB;
-    *valorB = auxiliar;
+    Empleado auxiliar;
+
+    auxiliar = *empelado1;
+    *empelado1 = *empleado2;
+    *empleado2 = auxiliar;
 }
 
 /**
 *\brief Ejecuta el programa
-*\param valorA es el puntero del primer elemento
-*\param valorB es el puntero del segundo elemento
+*\param Empleado* empleados es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
 *\return Retorna void
 */
 int arrancaPrograma(Empleado* empleados, int limite)
 {
+    int retorno = -1;
     int opcionMenu = 1;
     int indiceVacio;
     int auxId;
@@ -39,30 +41,32 @@ int arrancaPrograma(Empleado* empleados, int limite)
     float salarioPromedio=0;
     int i;
 
+    Empleado* empleadoSeleccionado;
+
     empleado_inicializarArray(empleados,limite);
 
-    empleado_ingresoForzado(empleados,limite,"Damian","Gay",22,1850.25,3);
+    empleado_ingresoForzado(empleados,limite,"Damian","Gay",1850.25,3);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Leandro","Gay",35,1650.25,6);
+    empleado_ingresoForzado(empleados,limite,"Leandro","Gay",1650.25,6);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Lucas","Gay",18,1000.12,8);
+    empleado_ingresoForzado(empleados,limite,"Lucas","Gay",1000.12,8);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Gabriel","Egea",46,2000,4);
+    empleado_ingresoForzado(empleados,limite,"Gabriel","Egea",2000,4);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Alejandro","Baliba",26,1600,5);
+    empleado_ingresoForzado(empleados,limite,"Alejandro","Baliba",1600,5);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Florencia","Picallo",21,1630.25,1);
+    empleado_ingresoForzado(empleados,limite,"Florencia","Picallo",1630.25,1);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Pedro","Andujar",34,1850.25,2);
+    empleado_ingresoForzado(empleados,limite,"Pedro","Andujar",1850.25,2);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Yamila","Bofelli",32,1001.12,3);
+    empleado_ingresoForzado(empleados,limite,"Yamila","Bofelli",1001.12,3);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Emiliano","Gomez",37,2012,4);
+    empleado_ingresoForzado(empleados,limite,"Emiliano","Gomez",2012,4);
     contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Pablo","Coco",26,1600,5);
+    empleado_ingresoForzado(empleados,limite,"Pablo","Coco",1600,5);
     contadorEmpleados++;
 
-    while(opcionMenu >= 1 && opcionMenu <=5)
+    while(retorno!=0)
     {
          opcionMenu=empleado_construirMenu();
          switch(opcionMenu)
@@ -71,24 +75,23 @@ int arrancaPrograma(Empleado* empleados, int limite)
                 empleado_buscarIndiceVacio(empleados,limite,&indiceVacio);
                 empleado_altaEmpleado(empleados,indiceVacio,limite);
                 contadorEmpleados++;
-                myFlush();
                 pausarPantalla();
                 limpiarPantalla();
                 break;
 
             case 2:
-                utn_getEntero(&auxId,3,"Ingrese el ID a buscar: ","ERROR!", 0, 3000);
-                if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
-                {
-
-                    empleado_modificarEmpleadoPorId(empleados,auxId);
-                }
+                utn_getEntero(&auxId,3,"Ingrese el ID que hay que modificar ", "ERROR!", 0,1000);
+                printf("El id ingresado es %d", auxId);
+                empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
+                empleado_modificarEmpleado(empleadoSeleccionado,limite);
+                pausarPantalla();
+                limpiarPantalla();
 
 
             break;
 
             case 3:
-                utn_getEntero(&auxId,3,"Ingrese el ID a borrar: ","ERROR!", 0, 3000);
+                array_getStringInt(&auxId,limite,"Ingrese el ID a modificar: \n", "ERROR!", 3);
                 if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
                 {
                     empleado_borrarPorID(empleados,limite,auxId);
@@ -97,7 +100,9 @@ int arrancaPrograma(Empleado* empleados, int limite)
                 break;
 
             case 4: ///Se mostraran primero los empleados ordenados y luego de presionar ENTER el calculo de salarios
-
+                    contadorEmpleadosSueldo=0;
+                    sumaSalarios=0;
+                    salarioPromedio=0;
                     empleado_ordenarApellidoYSector(empleados,limite,0);
                     empleado_imprimirListaEmpleados(empleados,limite);
 
@@ -124,19 +129,15 @@ int arrancaPrograma(Empleado* empleados, int limite)
                     printf("\nEl total de empleados que superan el promedio es %d\n",contadorEmpleadosSueldo);
                     pausarPantalla();
                     limpiarPantalla();
-
-
                 break;
 
 
-            case 5: printf("Adios");
-            break;
-
-            default: printf("error ingrese una opcion valida");
+            case 5:
+                retorno = 0;
+                break;
          }
     }
-    return 0;
-
+    return retorno;
 }
 
 int empleado_inicializarArray(Empleado* pBuffer,int limite){
@@ -166,32 +167,62 @@ int empleado_obtenerID(){
 }
 int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite)
 {
-    array_getNombre(pBuffer[indice].nombre,51, "\nIngrese su nombre: ", "\nERROR!", 3);
-    array_getNombre(pBuffer[indice].apellido, 51, "\nIngrese su apellido: ", "\nERROR!", 3);
-    array_getStringInt(&pBuffer[indice].edad,3,"\nIngrese la edad: ","ERROR",3);
-    array_getStringFloat(&pBuffer[indice].salario,10,"\nIngrese el salario: ","ERROR",3);
-    utn_getEntero(&pBuffer[indice].sector,3,"\nIngrese el sector: ", "\nError!", 1, 38);
-    pBuffer[indice].isEmpty=0;
-    pBuffer[indice].id=empleado_obtenerID();
-    return 0;
+    int retorno=-1;
+    char nombre[51];
+    char apellido[51];
+    float salario = 0;
+    int sector;
+
+    if( pBuffer != NULL && limite > 0 && pBuffer[indice].isEmpty &&
+
+            !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
+            !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
+            !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado: ","ERROR!",50)&&
+            !array_getStringInt(&sector,3,"\nIngrese el sector del empleado: ","ERROR!",3))
+
+        {
+            strncpy(pBuffer[indice].nombre,nombre,51);
+            strncpy(pBuffer[indice].apellido,apellido,51);
+            pBuffer[indice].salario = salario;
+            pBuffer[indice].sector = sector;
+            pBuffer[indice].isEmpty = 0;
+            pBuffer[indice].id = empleado_obtenerID();
+            retorno = 0;
+        }
+        return retorno;
 }
 
-int empleado_modificarEmpleadoPorId(Empleado* pBuffer,int indice){
-    array_getNombre(pBuffer[indice].nombre,51,"\nIngrese su nombre: ","\nERROR!", 3);
-    array_getNombre(pBuffer[indice].apellido, 51,"\nIngrese su apellido: ","\nERROR!", 3);
-    utn_getEntero(&pBuffer[indice].edad,3,"\nIngrese su edad: ","\nError!", 18, 70);
-    utn_getFloat(&pBuffer[indice].salario, 3, "\nIngrese el salario: ","\nERROR!",0.0, 99999.0);
-    utn_getEntero(&pBuffer[indice].sector,3,"\nIngrese el sector: ","\nERROR!", 1, 38);
-    return 0;
+int empleado_modificarEmpleado(Empleado* pBuffer,int limite)
+{
+    int retorno=-1;
+    char nombre[51];
+    char apellido[51];
+    float salario = 0;
+    int sector=0;
+
+    if( pBuffer != NULL &&
+            !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
+            !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
+            !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado: ","ERROR!",50)&&
+            !array_getStringInt(&sector,3,"\nIngrese el sector del empleado: ","ERROR!",3))
+
+        {
+            strncpy(pBuffer->nombre,nombre,51);
+            strncpy(pBuffer->apellido,apellido,51);
+            pBuffer->salario = salario;
+            pBuffer->sector = sector;
+            retorno = 0;
+        }
+        return retorno;
 }
 
 Empleado* empleado_busquedaPorID(Empleado* pBuffer, int limite, int ID){
     int i;
     Empleado* retorno=NULL;
     for (i=0;i<limite;i++){
-        if(pBuffer[i].isEmpty==0 && pBuffer[i].id==ID){
-
-            retorno= &pBuffer[i];
+        if(!pBuffer[i].isEmpty && pBuffer[i].id==ID)
+        {
+            retorno = pBuffer+i;
             break;
         }
     }
@@ -225,7 +256,6 @@ int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite)
             printf("\nID: %d",pBuffer[i].id);
             printf("\nNombre: %s, %s",pBuffer[i].nombre, pBuffer[i].apellido );
             printf("\nSalario: %.2f",pBuffer[i].salario);
-            printf("\nEdad: %d",pBuffer[i].edad);
             printf("\nSector: %d\n",pBuffer[i].sector);
 
         }
@@ -260,14 +290,13 @@ int empleado_construirMenu()
 }
 
 
-int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,int edad,float salario,int sector){
+int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,float salario,int sector){
     int aux;
 
     empleado_buscarIndiceVacio(pBuffer,limite,&aux);
     pBuffer[aux].id=empleado_obtenerID();
     strncpy(pBuffer[aux].nombre,nombre,50);
     strncpy(pBuffer[aux].apellido,apellido,50);
-    pBuffer[aux].edad=edad;
     pBuffer[aux].salario=salario;
     pBuffer[aux].sector=sector;
     pBuffer[aux].isEmpty=0;

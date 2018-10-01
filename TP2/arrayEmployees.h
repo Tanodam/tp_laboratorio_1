@@ -8,24 +8,22 @@ typedef struct
     float salario;
     int isEmpty;
     int sector;
-    int edad;
 
 }Empleado;
 
 int empleado_inicializarArray(Empleado* pBuffer,int limite);
 int empleado_buscarIndiceVacio(Empleado* pBuffer,int limite,int*indice);
-int empleado_imprimirListaAsociados(Empleado* pBuffer,int limite);
 int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite);
-int empleado_modificarEmpleadoPorId(Empleado* pBuffer,int indice);
-Empleado* empleado_busquedaPorID(Empleado* pBuffer,int limite,int ID);
+int empleado_modificarEmpleado(Empleado* pBuffer,int limite);
+Empleado* empleado_busquedaPorID(Empleado* pBuffer,int limite, int ID);
 void empleado_borrarPorID(Empleado* pBuffer,int limite, int indice);
 int empleado_existeID(Empleado* pBuffer,int limite, int ID);
 int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite);
 int empleado_construirMenu();
-int empleado_construirModificar();
-int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,int edad,float salario,int sector);
-int empleado_ordenarApellido(Empleado* pBuffer,int limite,int orden);
-int empleado_sortSector(Empleado* pBuffer,int limite,int orden);
+int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,float salario,int sector);
+int empleado_ordenarApellidoYSector(Empleado* pBuffer, int limite, int orden);
+int comparacionApellidoYSector(Empleado* empleado1, Empleado* empleado2);
+int arrancaPrograma(Empleado* empleados, int limite);
 
 
 
