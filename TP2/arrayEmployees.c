@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utn.h"
-
 #include "arrayEmployees.h"
 #include "array.h"
 
@@ -40,66 +39,113 @@ int arrancaPrograma(Empleado* empleados, int limite)
     float sumaSalarios=0;
     float salarioPromedio=0;
     int i;
+    int flagDatosCargados=0;
 
     Empleado* empleadoSeleccionado;
 
     empleado_inicializarArray(empleados,limite);
 
-    empleado_ingresoForzado(empleados,limite,"Damian","Gay",1850.25,3);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Leandro","Gay",1650.25,6);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Lucas","Gay",1000.12,8);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Gabriel","Egea",2000,4);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Alejandro","Baliba",1600,5);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Florencia","Picallo",1630.25,1);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Pedro","Andujar",1850.25,2);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Yamila","Bofelli",1001.12,3);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Emiliano","Gomez",2012,4);
-    contadorEmpleados++;
-    empleado_ingresoForzado(empleados,limite,"Pablo","Coco",1600,5);
-    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Damian","Luna",1850.25,3);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Leandro","Garcia",1650.25,6);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Lucas","Pinero",1000.12,8);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Gabriel","Egea",2000,4);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Alejandro","Baliba",1600,5);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Florencia","Picallo",1630.25,1);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Pedro","Andujar",1850.25,2);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Yamila","Bofelli",1001.12,3);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Emiliano","Gomez",2012,4);
+//    contadorEmpleados++;
+//    empleado_ingresoForzado(empleados,limite,"Pablo","Coco",1600,5);
+//    contadorEmpleados++;
+//    flagDatosCargados=1;
 
     while(retorno!=0)
     {
+        limpiarPantalla();
          opcionMenu=empleado_construirMenu();
          switch(opcionMenu)
          {
             case 1:
                 empleado_buscarIndiceVacio(empleados,limite,&indiceVacio);
+                if(indiceVacio > limite)
+                {
                 empleado_altaEmpleado(empleados,indiceVacio,limite);
                 contadorEmpleados++;
+                flagDatosCargados=1;
                 pausarPantalla();
                 limpiarPantalla();
+                }
+                else
+                {
+                    printf("No hay espacio disponible\n");
+                    pausarPantalla();
+                }
                 break;
 
             case 2:
-                utn_getEntero(&auxId,3,"Ingrese el ID que hay que modificar ", "ERROR!", 0,1000);
-                printf("El id ingresado es %d", auxId);
-                empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
-                empleado_modificarEmpleado(empleadoSeleccionado,limite);
-                pausarPantalla();
-                limpiarPantalla();
-
-
+                if(flagDatosCargados!=0)
+                {
+                    array_getStringInt(&auxId,4,"Ingrese el ID que hay que modificar ", "ERROR! Ingrese un numero valido\n", 3);
+                    if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
+                    {
+                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
+                    limpiarPantalla();
+                    empleado_modificarEmpleado(empleadoSeleccionado,limite);
+                    printf("\nModificacion realizada\n");
+                    pausarPantalla();
+                    }
+                    else
+                    {
+                        printf("\nNo existe el ID\n");
+                        pausarPantalla();
+                    }
+                }
+                else
+                {
+                    printf("NO HAY DATOS CARGADOS\n");
+                    pausarPantalla();
+                }
             break;
 
             case 3:
-                array_getStringInt(&auxId,limite,"Ingrese el ID a modificar: \n", "ERROR!", 3);
-                if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
+                if(flagDatosCargados!=0)
                 {
-                    empleado_borrarPorID(empleados,limite,auxId);
+                    array_getStringInt(&auxId,4,"Ingrese el ID que hay que borrar ", "ERROR! Ingrese un numero valido\n", 3);
+                    if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
+                    {
+                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
+                    limpiarPantalla();
+                    limpiarPantalla();
+                    empleado_borrarPorID(empleadoSeleccionado,limite);
+                    contadorEmpleados--;
+                    printf("\nEliminacion realizada\n");
+                    pausarPantalla();
+                    }
+                    else
+                    {
+                        printf("No existe el ID\n");
+                        pausarPantalla();
+                    }
                 }
-
+                else
+                {
+                    printf("NO HAY DATOS CARGADOS\n");
+                    pausarPantalla();
+                }
                 break;
 
             case 4: ///Se mostraran primero los empleados ordenados y luego de presionar ENTER el calculo de salarios
+                    if(flagDatosCargados!=0)
+                    {
+
                     contadorEmpleadosSueldo=0;
                     sumaSalarios=0;
                     salarioPromedio=0;
@@ -129,6 +175,12 @@ int arrancaPrograma(Empleado* empleados, int limite)
                     printf("\nEl total de empleados que superan el promedio es %d\n",contadorEmpleadosSueldo);
                     pausarPantalla();
                     limpiarPantalla();
+                    }
+                else
+                {
+                    printf("NO HAY DATOS CARGADOS\n");
+                    pausarPantalla();
+                }
                 break;
 
 
@@ -200,7 +252,10 @@ int empleado_modificarEmpleado(Empleado* pBuffer,int limite)
     float salario = 0;
     int sector=0;
 
-    if( pBuffer != NULL &&
+    printf("Se va a modificar el siguiente empleado\nNombre: %s\nApellido: %s\nSalario: %.2f\nSector: %d\nID: %d\n\n",
+    pBuffer->nombre, pBuffer->apellido, pBuffer->salario, pBuffer->sector, pBuffer->id);
+    pausarPantalla();
+    if( pBuffer != NULL && limite > 0 &&
             !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
             !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
             !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado: ","ERROR!",50)&&
@@ -225,24 +280,40 @@ Empleado* empleado_busquedaPorID(Empleado* pBuffer, int limite, int ID){
             retorno = pBuffer+i;
             break;
         }
+
     }
     return retorno;
 }
-int empleado_existeID(Empleado* pBuffer,int limite, int ID){
-    int i;
-    int retorno=-1;
-    for(i=0;i<limite;i++){
-        if(pBuffer[i].id==ID && pBuffer[i].isEmpty==0){
-            retorno=0;
-        }
-    }
-    return retorno;
-}
-void empleado_borrarPorID(Empleado* pBuffer,int limite, int indice)
+int empleado_existeID(Empleado* pBuffer,int limite, int identificador)
 {
+    int j;
+    int retorno=-1;
+
+    for(j=0;j<limite;j++)
+        {
+        if(pBuffer[j].id == identificador)
+        {
+            printf("Entro");
+            retorno = 0;
+            break;
+        }
+        else
+        {
+            printf("No se encontro el ID\n");
+            retorno = 1;
+            break;
+        }
+        }
+    return retorno;
+}
+void empleado_borrarPorID(Empleado* pBuffer,int limite)
+{
+    printf("Se va a borrar el siguiente empleado\nNombre: %s\nApellido: %s\nSalario: %.2f\nSector: %d\nID: %d\n\n",
+    pBuffer->nombre, pBuffer->apellido, pBuffer->salario, pBuffer->sector, pBuffer->id);
+    pausarPantalla();
     if(pBuffer != NULL && limite>0)
     {
-        pBuffer[indice].isEmpty=1;
+        pBuffer->isEmpty=1;
     }
 }
 
@@ -428,7 +499,7 @@ int empleado_ordenarApellidoYSector(Empleado* pBuffer, int limite, int orden)
             j = i - 1;
             if(orden == 0)
             {
-                while ((j >= 0) && !comparacionApellidoYSector(&pBuffer[j], &auxiliar))
+                while ((j >= 0) && !empleado_comparacionApellidoYSector(&pBuffer[j], &auxiliar))
                 {
                     pBuffer[j + 1] = pBuffer[j];
                     j--;
@@ -437,7 +508,7 @@ int empleado_ordenarApellidoYSector(Empleado* pBuffer, int limite, int orden)
             }
             if(orden == 1)
             {
-                while ((j >= 0) && !comparacionApellidoYSector(&auxiliar, &pBuffer[j]))
+                while ((j >= 0) && !empleado_comparacionApellidoYSector(&auxiliar, &pBuffer[j]))
                 {
                     pBuffer[j + 1] = pBuffer[j];
                     j--;
@@ -456,7 +527,7 @@ int empleado_ordenarApellidoYSector(Empleado* pBuffer, int limite, int orden)
 * \param arrayDos es el segundo empleado que se va a comparar
 * \return si el primero es mayor devuelve 0(para que se realice el swap), si no -1
 */
-int comparacionApellidoYSector(Empleado* empleado1, Empleado* empleado2)
+int empleado_comparacionApellidoYSector(Empleado* empleado1, Empleado* empleado2)
 {
     int retorno=-1;
     if(empleado1 != NULL && empleado2 != NULL)
