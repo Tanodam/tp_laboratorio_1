@@ -6,34 +6,16 @@
 #include "array.h"
 #include "validator.h"
 #include "arrayEmployees.h"
-
 #define BUFFER_STR 4097
+
 static int getString (char* pArray, int limiteaArray);
-
-
 /**
-*\brief Funcion generica para Windows/Linux para limpiar el buffer de entrada
+*\brief Funcion estatica que se encarga de tomar datos por consola y valida que la cantidad de caracteres sea -1
+        que el limite del array y que el ultimo caracter sea el \n
+*\param pArray Puntero a la direccion de memoria donde se va almacenar el string que se tomo por consola
+*\param limiteArray es el tamaño del array de caracteres donde se va a almacenar el string
+*\return Exito=0 y Error=-1
 */
-void myFlush()
-{
-    __fpurge(stdin);//Para Linux
-}
-/**
-*\brief Funcion que limpia la pantalla de la consola.
-*/
-void limpiarPantalla()
-{
-    system("clear");
-}
-/**
-*\brief Funcion que pausa la consola para que el usuario pueda leer.
-*/
-void pausarPantalla()
-{
-    printf("Presione ENTER para continuar");
-    myFlush();
-    getchar();
-}
 int static getString (char* pArray, int limiteaArray)
 {
     int retorno = -1;
@@ -54,12 +36,36 @@ int static getString (char* pArray, int limiteaArray)
     return retorno;
 
 }
-
+/**
+*\brief Funcion generica para Windows/Linux para limpiar el buffer de entrada
+*/
+void myFlush()
+{
+    __fpurge(stdin);
+}
+/**
+*\brief Funcion que limpia la pantalla de la consola.
+*/
+void limpiarPantalla()
+{
+    system("clear");
+}
+/**
+*\brief Funcion que pausa la consola para que el usuario pueda leer.
+*/
+void pausarPantalla()
+{
+    printf("Presione ENTER para continuar");
+    myFlush();
+    getchar();
+}
 /**
 *\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringCharEsValido.
 *\param pArray Puntero a la direccion de memoria donde se va almacenar el string validado
+*\param limiteArray es el tamaño del array de caracteres donde se va a almacenar el string
 *\param mensaje[] es el mensaje que se le va a mostrar al usuario
 *\param mensajeError[] es el mensaje que se le va a mostrar al usuario si hay un error en la carga de datos
+*\param reintentos cantidad de intentos que tiene disponibles el usuario
 *\return Exito=0 y Error=1
 *
 */
@@ -85,7 +91,7 @@ char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensaje
                     myFlush();
                     buffer[i]=tolower(buffer[i]); //Convierto todos los caracteres del array a minusculas para validarlos
                 }
-                if(array_StringCharEsValido(buffer, limiteArray)&& strlen(buffer)!=0) ///Valido los caracteres, si se cumple 1 y si no
+                if(array_StringCharEsValido(buffer, limiteArray) && strlen(buffer)!=0) ///Valido los caracteres, si se cumple 1 y si no
                 {
                     myFlush();
                     buffer[0]=toupper(buffer[0]); ///Convierto a mayusculas el primer caracter.
@@ -110,10 +116,11 @@ char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensaje
     return retorno;
 }
 /**
-*\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringCharEsValido.
+*\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringMailEsValido.
 *\param pArray Puntero a la direccion de memoria donde se va almacenar el string validado
 *\param mensaje[] es el mensaje que se le va a mostrar al usuario
 *\param mensajeError[] es el mensaje que se le va a mostrar al usuario si hay un error en la carga de datos
+*\param reintentos cantidad de intentos que tiene disponibles el usuario
 *\return Exito=0 y Error=1
 *
 */
@@ -154,52 +161,15 @@ char array_getMail(char* pArray, int limiteArray, char* mensaje, char* mensajeEr
 
     return retorno;
 }
-
 /**
-*\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringCharEsValido.
-*\param pArray Puntero a la direccion de memoria donde se va almacenar el string validado
+*\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringFloarEsValido.
+*\param pArray Puntero a la direccion de memoria donde se va almacenar el float validado
 *\param mensaje[] es el mensaje que se le va a mostrar al usuario
 *\param mensajeError[] es el mensaje que se le va a mostrar al usuario si hay un error en la carga de datos
+*\param reintentos cantidad de intentos que tiene disponibles el usuario
 *\return Exito=0 y Error=1
 *
 */
-char array_getTelefono(char* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
-{
-    int retorno=-1;
-    int contadorIntentos=0;
-    char buffer[BUFFER_STR];
-
-    if(pArray != NULL && limiteArray > 0)
-    {
-        do
-        {
-            printf("%s", mensaje);
-            contadorIntentos++;
-            if(getString(buffer,limiteArray)==0)
-            {
-                myFlush();
-                if(array_StringTelefonoEsValido(buffer, limiteArray)==1) ///Valido los caracteres, si se cumple 1 y si no
-                {
-                    strncpy(pArray,buffer,limiteArray); ///Copio en el puntero a pArray el valor de string
-                    retorno = 0;
-                    break;
-                }
-                else
-                {
-                    printf("%s", mensajeError);
-                    if(contadorIntentos==reintentos)
-                    {
-                        printf("\nSe han superado los intenos maximos permitidos");
-                        retorno = -1;
-                        break;
-                    }
-                }
-            }
-        }while(contadorIntentos <= reintentos);
-    }
-
-    return retorno;
-}
 int array_getStringFloat(float* pArray, int limiteArray,int minimo, int maximo, char* mensaje, char* mensajeError, int reintentos)
 {
     int retorno= -1;
@@ -242,6 +212,15 @@ int array_getStringFloat(float* pArray, int limiteArray,int minimo, int maximo, 
 
     return retorno;
 }
+/**
+*\brief Solicita string al usuario y lo devuelve validado mediante la funcion StringIntEsValido.
+*\param pArray Puntero a la direccion de memoria donde se va almacenar el float validado.
+*\param mensaje[] es el mensaje que se le va a mostrar al usuario
+*\param mensajeError[] es el mensaje que se le va a mostrar al usuario si hay un error en la carga de datos
+*\param reintentos cantidad de intentos que tiene disponibles el usuario
+*\return Exito=0 y Error=1
+*
+*/
 int array_getStringInt(int* pArray, int limiteArray, char* mensaje, char* mensajeError, int reintentos)
 {
     int retorno= -1;

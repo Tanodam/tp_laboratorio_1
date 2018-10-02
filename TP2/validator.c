@@ -5,7 +5,6 @@
 #include "ctype.h"
 #include "utn.h"
 
-
 /**
 *\brief [Funcion interna de GetMail] Valida que el usuario haya ingresado un mail correcto
 *\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
@@ -137,7 +136,7 @@ int array_StringFloatEsValido (char* pArray, int limiteArray)
 return retorno;
 }
 /**
-*\brief [Funcion interna de GetStringFloat] Valida que el usuario solo haya ingresado caracteres del 0 al 9
+*\brief [Funcion interna de GetStringInt] Valida que el usuario solo haya ingresado caracteres del 0 al 9
 *\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
 *\param limiteArray tamaño del array
 *\return Exito=0 y Error=-1
@@ -170,7 +169,7 @@ int array_StringIntEsValido(char* pArray, int limiteArray)
 *\brief [Funcion interna de GetStringChar] Valida que el usuario solo haya ingresado caracteres de la A a la Z
 *\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
 *\param limiteArray tamaño del array
-*\return Exito=1 y Error=-0
+*\return Exito=1 y Error=0
 */
 int array_StringCharEsValido (char* pArray, int limiteArray)
 {
@@ -181,7 +180,7 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
     {
         retorno = 1;
 
-        for (i=0; i<strlen(pArray)-1; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+        for (i=1;i<limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
             {
                 if(pArray[i] == ' ' || (pArray[i] < 'a' || pArray[i] > 'z')) ///Verifica que no haya espacios ni caracteres fuera de rango
                 {
@@ -191,42 +190,4 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
             }
     }
     return retorno;
-}
-/**
-*\brief [Funcion interna de GetStringInt] Valida que el usuario solo haya ingresado caracteres del 0 al 9
-*\param pArray Puntero a la direccion de memoria donde esta almacenada el string a validar
-*\param limiteArray tamaño del array
-*\return Exito=0 y Error=-1
-*/
-char array_StringTelefonoEsValido (char* pArray, int limiteArray)
-{
-    int retorno=0;
-    int i;
-    int contadorGuiones=0;
-
-    for (i=0; i<strlen(pArray)-1; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
-        {
-            retorno = 1;
-            if(pArray[i] == '-')
-            {
-                contadorGuiones++;
-            }
-            if(pArray[i]!= '-' && (pArray[i] == ' ' || pArray[i] == '.') &&
-               (pArray[i] < '0' || pArray[i] > '9'))
-            {
-                retorno = 0;
-                break;
-            }
-            if(contadorGuiones>=1 || contadorGuiones<=2)
-            {
-                retorno = 1;
-                break;
-            }
-            else
-            {
-                printf("Faltan guiones\n");
-            }
-
-        }
-        return retorno;
 }

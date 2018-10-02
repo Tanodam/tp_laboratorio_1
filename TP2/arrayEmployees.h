@@ -11,11 +11,11 @@ typedef struct
 
 }Empleado;
 
-int empleado_inicializarArray(Empleado* pBuffer,int limite);
-int empleado_buscarIndiceVacio(Empleado* pBuffer,int limite,int*indice);
-int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite);
-int empleado_modificarEmpleado(Empleado* pBuffer,int limite);
-Empleado* empleado_busquedaPorID(Empleado* pBuffer,int limite, int ID);
+int empleado_inicializarArray(Empleado* array,int limite);
+int empleado_buscarIndiceVacio(Empleado* array,int limite,int*indice);
+int empleado_altaEmpleado(Empleado* array,int indice, int limite);
+int empleado_modificarEmpleado(Empleado* array,int limite);
+Empleado* empleado_busquedaPorID(Empleado* array, int limite, int ID);
 void empleado_borrarPorID(Empleado* pBuffer,int limite);
 int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite);
 int empleado_construirMenu();

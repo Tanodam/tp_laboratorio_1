@@ -5,30 +5,24 @@
 #include "arrayEmployees.h"
 #include "array.h"
 
-static void swap(Empleado* empelado1,Empleado* empleado2);
-
+static int empleado_obtenerID();
 /**
-*\brief Realiza el swap entre dos elementos
-*\param valorA es el puntero del primer elemento
-*\param valorB es el puntero del segundo elemento
-*\return Retorna void
+*\brief Funcion que obtiene el proximo ID
+*\return Retorna el ID
 */
-static void swap(Empleado* empelado1,Empleado* empleado2)
+static int empleado_obtenerID()
 {
-    Empleado auxiliar;
-
-    auxiliar = *empelado1;
-    *empelado1 = *empleado2;
-    *empleado2 = auxiliar;
+    static int ID=-1;
+    ID++;
+    return ID;
 }
-
 /**
 *\brief Ejecuta el programa
 *\param Empleado* empleados es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
 *\param limite es la cantidad de empleados
 *\return Retorna void
 */
-int arrancaPrograma(Empleado* empleados, int limite)
+int arrancaPrograma(Empleado* empleados, int limiteEmpleados)
 {
     int retorno = -1;
     int opcionMenu = 1;
@@ -43,27 +37,27 @@ int arrancaPrograma(Empleado* empleados, int limite)
 
     Empleado* empleadoSeleccionado;
 
-    empleado_inicializarArray(empleados,limite);
-
-//    empleado_ingresoForzado(empleados,limite,"Damian","Luna",1850.25,3);
+    empleado_inicializarArray(empleados,limiteEmpleados);
+///Harcodeado forzado de informacion falsa para test, uncomment para utilizar
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Damian","Luna",1850.25,3);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Leandro","Garcia",1650.25,6);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Leandro","Garcia",1650.25,6);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Lucas","Pinero",1000.12,8);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Lucas","Pinero",1000.12,8);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Gabriel","Egea",2000,4);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Gabriel","Egea",2000,4);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Alejandro","Baliba",1600,5);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Alejandro","Baliba",1600,5);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Florencia","Picallo",1630.25,1);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Florencia","Picallo",1630.25,1);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Pedro","Andujar",1850.25,2);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Pedro","Andujar",1850.25,2);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Yamila","Bofelli",1001.12,3);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Yamila","Bofelli",1001.12,3);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Emiliano","Gomez",2012,4);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Emiliano","Gomez",2012,4);
 //    contadorEmpleados++;
-//    empleado_ingresoForzado(empleados,limite,"Pablo","Coco",1600,5);
+//    empleado_ingresoForzado(empleados,limiteEmpleados,"Pablo","Coco",1600,5);
 //    contadorEmpleados++;
 //    flagDatosCargados=1;
 
@@ -74,10 +68,9 @@ int arrancaPrograma(Empleado* empleados, int limite)
          switch(opcionMenu)
          {
             case 1:
-                empleado_buscarIndiceVacio(empleados,limite,&indiceVacio);
-                if(indiceVacio > limite)
+                if(!empleado_buscarIndiceVacio(empleados,limiteEmpleados,&indiceVacio))
                 {
-                empleado_altaEmpleado(empleados,indiceVacio,limite);
+                empleado_altaEmpleado(empleados,indiceVacio,limiteEmpleados);
                 contadorEmpleados++;
                 flagDatosCargados=1;
                 pausarPantalla();
@@ -94,11 +87,11 @@ int arrancaPrograma(Empleado* empleados, int limite)
                 if(flagDatosCargados!=0)
                 {
                     array_getStringInt(&auxId,4,"Ingrese el ID que hay que modificar ", "ERROR! Ingrese un numero valido\n", 3);
-                    if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
+                    if(empleado_busquedaPorID(empleados,limiteEmpleados,auxId)!= NULL)
                     {
-                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
+                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limiteEmpleados,auxId);
                     limpiarPantalla();
-                    empleado_modificarEmpleado(empleadoSeleccionado,limite);
+                    empleado_modificarEmpleado(empleadoSeleccionado,limiteEmpleados);
                     printf("\nModificacion realizada\n");
                     pausarPantalla();
                     }
@@ -119,12 +112,12 @@ int arrancaPrograma(Empleado* empleados, int limite)
                 if(flagDatosCargados!=0)
                 {
                     array_getStringInt(&auxId,4,"Ingrese el ID que hay que borrar ", "ERROR! Ingrese un numero valido\n", 3);
-                    if(empleado_busquedaPorID(empleados,limite,auxId)!= NULL)
+                    if(empleado_busquedaPorID(empleados,limiteEmpleados,auxId)!= NULL)
                     {
-                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limite,auxId);
+                    empleadoSeleccionado = empleado_busquedaPorID(empleados,limiteEmpleados,auxId);
                     limpiarPantalla();
                     limpiarPantalla();
-                    empleado_borrarPorID(empleadoSeleccionado,limite);
+                    empleado_borrarPorID(empleadoSeleccionado,limiteEmpleados);
                     contadorEmpleados--;
                     printf("\nEliminacion realizada\n");
                     pausarPantalla();
@@ -149,10 +142,10 @@ int arrancaPrograma(Empleado* empleados, int limite)
                     contadorEmpleadosSueldo=0;
                     sumaSalarios=0;
                     salarioPromedio=0;
-                    empleado_ordenarApellidoYSector(empleados,limite,0);
-                    empleado_imprimirListaEmpleados(empleados,limite);
+                    empleado_ordenarApellidoYSector(empleados,limiteEmpleados,0);
+                    empleado_imprimirListaEmpleados(empleados,limiteEmpleados);
 
-                    for(i=0;i<limite;i++)
+                    for(i=0;i<limiteEmpleados;i++)
                     {
                         if(!empleados[i].isEmpty)
                         {
@@ -162,7 +155,7 @@ int arrancaPrograma(Empleado* empleados, int limite)
 
                     salarioPromedio = sumaSalarios / contadorEmpleados;
 
-                    for(i=0;i<limite;i++)
+                    for(i=0;i<limiteEmpleados;i++)
                     {
                         if(empleados[i].salario > salarioPromedio && !empleados[i].isEmpty)
                         {
@@ -191,19 +184,33 @@ int arrancaPrograma(Empleado* empleados, int limite)
     }
     return retorno;
 }
-
-int empleado_inicializarArray(Empleado* pBuffer,int limite){
+/**
+*\brief Funcion que inicializa todos los estados de .IsEmpty en 1 para indicar que el campo esta vacio.
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\return Retorno todos los campos de IsEmpty en 1
+*/
+int empleado_inicializarArray(Empleado* array,int limite)
+{
     int i;
     for(i=0;i<limite;i++){
-        pBuffer[i].isEmpty=1;
+        array[i].isEmpty=1;
     }
     return 0;
 }
-int empleado_buscarIndiceVacio(Empleado* pBuffer,int limite,int*indice){
+/**
+*\brief Funcion que busca un indice vacio comprando que el campo IsEmpty sea 1
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\param indice es el indice del campo IsEmpty que se va a consultar
+*\return Exito=0 Error=1
+*/
+int empleado_buscarIndiceVacio(Empleado* array,int limite,int*indice)
+{
     int i;
     int retorno=-1;
     for(i=0;i<limite;i++){
-        if(pBuffer[i].isEmpty==1){
+        if(array[i].isEmpty==1){
             *indice=i;
             retorno=0;
             break;
@@ -211,13 +218,14 @@ int empleado_buscarIndiceVacio(Empleado* pBuffer,int limite,int*indice){
     }
     return retorno;
 }
-
-int empleado_obtenerID(){
-    static int ID=-1;
-    ID++;
-    return ID;
-}
-int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite)
+/**
+*\brief Funcion que realiza el alta de un empleado
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param indice es el indice del campo IsEmpty que se va a consultar
+*\param limite es la cantidad de empleados
+*\return Exito=0 Error=1
+*/
+int empleado_altaEmpleado(Empleado* array,int indice, int limite)
 {
     int retorno=-1;
     char nombre[51];
@@ -225,7 +233,7 @@ int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite)
     float salario = 0;
     int sector;
 
-    if( pBuffer != NULL && limite > 0 && pBuffer[indice].isEmpty &&
+    if( array != NULL && limite > 0 && array[indice].isEmpty &&
 
             !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
             !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
@@ -233,18 +241,23 @@ int empleado_altaEmpleado(Empleado* pBuffer,int indice, int limite)
             !array_getStringInt(&sector,3,"\nIngrese el sector del empleado: ","ERROR!",3))
 
         {
-            strncpy(pBuffer[indice].nombre,nombre,51);
-            strncpy(pBuffer[indice].apellido,apellido,51);
-            pBuffer[indice].salario = salario;
-            pBuffer[indice].sector = sector;
-            pBuffer[indice].isEmpty = 0;
-            pBuffer[indice].id = empleado_obtenerID();
+            strncpy(array[indice].nombre,nombre,51);
+            strncpy(array[indice].apellido,apellido,51);
+            array[indice].salario = salario;
+            array[indice].sector = sector;
+            array[indice].isEmpty = 0;
+            array[indice].id = empleado_obtenerID();
             retorno = 0;
         }
         return retorno;
 }
-
-int empleado_modificarEmpleado(Empleado* pBuffer,int limite)
+/**
+*\brief Funcion que modifica un empleado
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\return Exito=0 Error=1
+*/
+int empleado_modificarEmpleado(Empleado* array,int limite)
 {
     int retorno=-1;
     char nombre[51];
@@ -253,81 +266,76 @@ int empleado_modificarEmpleado(Empleado* pBuffer,int limite)
     int sector=0;
 
     printf("Se va a modificar el siguiente empleado\nNombre: %s\nApellido: %s\nSalario: %.2f\nSector: %d\nID: %d\n\n",
-    pBuffer->nombre, pBuffer->apellido, pBuffer->salario, pBuffer->sector, pBuffer->id);
+    array->nombre, array->apellido, array->salario, array->sector, array->id);
     pausarPantalla();
-    if( pBuffer != NULL && limite > 0 &&
+    if(     array != NULL && limite > 0 &&
             !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
             !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
             !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado: ","ERROR!",50)&&
             !array_getStringInt(&sector,3,"\nIngrese el sector del empleado: ","ERROR!",3))
-
         {
-            strncpy(pBuffer->nombre,nombre,51);
-            strncpy(pBuffer->apellido,apellido,51);
-            pBuffer->salario = salario;
-            pBuffer->sector = sector;
+            strncpy(array->nombre,nombre,51);
+            strncpy(array->apellido,apellido,51);
+            array->salario = salario;
+            array->sector = sector;
             retorno = 0;
         }
         return retorno;
 }
-
-Empleado* empleado_busquedaPorID(Empleado* pBuffer, int limite, int ID){
+/**
+*\brief Funcion que busca un empleado por su ID.
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\param ID es el identificador de usuario que hay que encontrar
+*\return Retorna el indice donde esta alojado la informacion del empleado - NULL si no encuentra nada
+*/
+Empleado* empleado_busquedaPorID(Empleado* array, int limite, int ID)
+{
     int i;
     Empleado* retorno=NULL;
     for (i=0;i<limite;i++){
-        if(!pBuffer[i].isEmpty && pBuffer[i].id==ID)
+        if(!array[i].isEmpty && array[i].id==ID)
         {
-            retorno = pBuffer+i;
+            retorno = array+i;
             break;
         }
 
     }
     return retorno;
 }
-int empleado_existeID(Empleado* pBuffer,int limite, int identificador)
-{
-    int j;
-    int retorno=-1;
-
-    for(j=0;j<limite;j++)
-        {
-        if(pBuffer[j].id == identificador)
-        {
-            printf("Entro");
-            retorno = 0;
-            break;
-        }
-        else
-        {
-            printf("No se encontro el ID\n");
-            retorno = 1;
-            break;
-        }
-        }
-    return retorno;
-}
-void empleado_borrarPorID(Empleado* pBuffer,int limite)
+/**
+*\brief Funcion que borra un empleado cambiando el estado del valor de IsEmpty
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\return void
+*/
+void empleado_borrarPorID(Empleado* array,int limite)
 {
     printf("Se va a borrar el siguiente empleado\nNombre: %s\nApellido: %s\nSalario: %.2f\nSector: %d\nID: %d\n\n",
-    pBuffer->nombre, pBuffer->apellido, pBuffer->salario, pBuffer->sector, pBuffer->id);
+    array->nombre, array->apellido, array->salario, array->sector, array->id);
     pausarPantalla();
-    if(pBuffer != NULL && limite>0)
+    if(array != NULL && limite>0)
     {
-        pBuffer->isEmpty=1;
+        array->isEmpty=1;
     }
 }
-
-int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite)
+/**
+*\brief Funcion que imprime todos los campos de la estructura empleados
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\return Exito=0 Error=1
+*/
+int empleado_imprimirListaEmpleados(Empleado* array,int limite)
 {
     int i;
     limpiarPantalla();
 
     for(i=0;i<limite;i++){
-        if(pBuffer[i].isEmpty==0){
-            printf("\nID: %d",pBuffer[i].id);
-            printf("\nNombre: %s, %s",pBuffer[i].nombre, pBuffer[i].apellido );
-            printf("\nSalario: %.2f",pBuffer[i].salario);
-            printf("\nSector: %d\n",pBuffer[i].sector);
+        if(array[i].isEmpty==0){
+            printf("\nID: %d",array[i].id);
+            printf("\nNombre: %s, %s",array[i].nombre, array[i].apellido );
+            printf("\nSalario: %.2f",array[i].salario);
+            printf("\nSector: %d\n",array[i].sector);
 
         }
     }
@@ -335,11 +343,8 @@ int empleado_imprimirListaEmpleados(Empleado* pBuffer,int limite)
         limpiarPantalla();
     return 0;
 }
-
 /**
-*\brief Construye el menu principal de la Calculadora y valida la opcion seleccionada
-*\param Valor de la variable asignada a numeroA para mostrarla en pantalla.
-*\param Valor de la variable asignada a numeroB para mostrarla en pantalla.
+*\brief Construye el menu principal del ABM y valida la opcion seleccionada
 *\return Exito=0 Devuelve la opcion ingresada y validada Error=5 Devuelve 5 porque es el case de Salida del programa.
 *
 */
@@ -359,170 +364,74 @@ int empleado_construirMenu()
 
         return respuesta;
 }
+/**
+*\brief Funcion que hardcodea todos los campos de la estructura con informacion falsa para testeo
+*\param Empleado* array es el puntero que recibe a la estructua Empleados para trabajar con ella y sus campos
+*\param limite es la cantidad de empleados
+*\param nombre es el string a copiar en en el campo nombre de la estructura
+*\param apellido es el string a copiar en en el campo nombre de la estructura
+*\param salario es el float a copiar en en el campo salario de la estructura
+*\param nombre es el int a copiar en en el campo sector de la estructura
+*\return Exito=0 Error=1
+*/
+int empleado_ingresoForzado(Empleado* array,int limite,char* nombre,char* apellido,float salario,int sector)
+{
+    int auxiliar;
 
-
-int empleado_ingresoForzado(Empleado* pBuffer,int limite,char* nombre,char* apellido,float salario,int sector){
-    int aux;
-
-    empleado_buscarIndiceVacio(pBuffer,limite,&aux);
-    pBuffer[aux].id=empleado_obtenerID();
-    strncpy(pBuffer[aux].nombre,nombre,50);
-    strncpy(pBuffer[aux].apellido,apellido,50);
-    pBuffer[aux].salario=salario;
-    pBuffer[aux].sector=sector;
-    pBuffer[aux].isEmpty=0;
+    empleado_buscarIndiceVacio(array,limite,&auxiliar);
+    array[auxiliar].id=empleado_obtenerID();
+    strncpy(array[auxiliar].nombre,nombre,50);
+    strncpy(array[auxiliar].apellido,apellido,50);
+    array[auxiliar].salario=salario;
+    array[auxiliar].sector=sector;
+    array[auxiliar].isEmpty=0;
     return 0;
 }
-
-
 /**
-*\brief Ordena todos los elementos de un array
-*\param array Es el array que recibe para ordenar
-*\param size Es el tamaño del array
-*\param orden Es el numero que indica ordenar de forma ascendente o descendente
-*\return Retorna 0 si no retorna -1
-*/
-
-int empleado_ordenarApellido(Empleado* pBuffer,int limite,int orden)
-{
-    int retorno = -1;
-    int i;
-    int j;
-
-    if(pBuffer != NULL && limite > 0)
-    {
-
-        if(orden == 1)
-        {
-            retorno = 0;
-
-            for(i=0;i<limite;i++)
-            {
-                for(j=i+1;j<limite;j++)
-                {
-                    if(strcmp(pBuffer[i].apellido,pBuffer[j].apellido) > 0)
-                    {
-                        swap(pBuffer+i,pBuffer+j);
-                    }
-                }
-            }
-        }
-        else if(orden == 0)
-        {
-            retorno = 0;
-
-            for(i=0;i<limite;i++)
-            {
-                for(j=i+1;j<limite;j++)
-                {
-                    if(strcmp(pBuffer[i].apellido,pBuffer[j].apellido) < 0)
-                    {
-                        swap(pBuffer+i,pBuffer+j);
-                    }
-                }
-            }
-        }
-
-
-    }
-    return retorno;
-}
-
-int empleado_sortSector(Empleado* pBuffer,int limite,int orden)
-{
-    int retorno = -1;
-    int i;
-    int j;
-
-    if(pBuffer != NULL && limite > 0)
-    {
-
-        if(orden == 1)
-        {
-            retorno = 0;
-
-            for(i=0;i<limite;i++)
-            {
-                for(j=i+1;j<limite;j++)
-                {
-                    if(pBuffer[i].sector > pBuffer[i-1].sector)
-                    {
-                        swap(pBuffer+i,pBuffer+j);
-                    }
-                }
-            }
-        }
-        else if(orden == 0)
-        {
-            retorno = 0;
-
-            for(i=0;i<limite;i++)
-            {
-                for(j=i+1;j<limite;j++)
-                {
-                    if(pBuffer[i].sector < pBuffer[i-1].sector)
-                    {
-                        swap(pBuffer+i,pBuffer+j);
-                    }
-                }
-            }
-        }
-
-
-    }
-    return retorno;
-
-
-}
-
-
-/**
-* \brief    ordena un array de empleados por insercion, por 2 criterios,
-*           primero por apellido y en caso de coincidir, por sector
+* \brief Funcion que ordena el array comparando apellidos, si el apellido es igual, ordena el sector.
 * \param array Es el array que se recorre
-* \param len Es el limite de empleados que puede guardar el array
-* \param orden El orden debe ser 0 (Ascendente) o 1 (Descendente)
+* \param limite Es el limite de empleados
+* \param orden Es el numero que indica el sentido del ordenamiento [0] (Ascendente) [1] (Descendente)
 * \return El retorno es 0 si se realizo el ordenamiento, si no el retorno es -1.
 */
-int empleado_ordenarApellidoYSector(Empleado* pBuffer, int limite, int orden)
+int empleado_ordenarApellidoYSector(Empleado* array, int limite, int orden)
 {
     int retorno=-1;
     int i;
     int j;
     Empleado auxiliar;
 
-    if(pBuffer != NULL && limite > 0 && (orden == 0 || orden == 1))
+    if(array != NULL && limite > 0 && (orden == 0 || orden == 1))
     {
         for(i=1; i < limite; i++)
         {
-            auxiliar = pBuffer[i];
+            auxiliar = array[i];
             j = i - 1;
             if(orden == 0)
             {
-                while ((j >= 0) && !empleado_comparacionApellidoYSector(&pBuffer[j], &auxiliar))
+                while ((j >= 0) && !empleado_comparacionApellidoYSector(&array[j], &auxiliar))
                 {
-                    pBuffer[j + 1] = pBuffer[j];
+                    array[j + 1] = array[j];
                     j--;
                 }
-                pBuffer[j + 1] = auxiliar;
+                array[j + 1] = auxiliar;
             }
             if(orden == 1)
             {
-                while ((j >= 0) && !empleado_comparacionApellidoYSector(&auxiliar, &pBuffer[j]))
+                while ((j >= 0) && !empleado_comparacionApellidoYSector(&auxiliar, &array[j]))
                 {
-                    pBuffer[j + 1] = pBuffer[j];
+                    array[j + 1] = array[j];
                     j--;
                 }
-                pBuffer[j + 1] = auxiliar;
+                array[j + 1] = auxiliar;
             }
         }
         retorno = 0;
     }
     return retorno;
 }
-
 /**
-* \brief compara a los empleados, primero por apellido y en caso de coincidir, por sector
+* \brief Funcion que compara empleados por apellido y por sector [Funcion interna de ordenarApellidoYSector]
 * \param arrayUno es el primer empleado que se va a comparar
 * \param arrayDos es el segundo empleado que se va a comparar
 * \return si el primero es mayor devuelve 0(para que se realice el swap), si no -1

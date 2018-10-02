@@ -1,5 +1,5 @@
 #include "arrayEmployees.h"
-#define CANTIDAD_EMPLEADOS 20
+#define CANTIDAD_EMPLEADOS 1000
 
 int main()
 {
