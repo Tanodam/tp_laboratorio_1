@@ -61,7 +61,7 @@
 
 1538482846 /home/xubuntu/Escritorio/tp_laboratorio_1/TP2/arrayEmployees.h
 
-1538488072 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/main.c
+1538491473 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/main.c
 	"arrayEmployees.h"
 
 1538490759 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/utn.c
@@ -81,7 +81,7 @@
 	"ctype.h"
 	"utn.h"
 
-1538490800 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/arrayEmployees.c
+1538492681 source:/home/xubuntu/Escritorio/tp_laboratorio_1/TP2/arrayEmployees.c
 	<stdio_ext.h>
 	<stdlib.h>
 	<string.h>

@@ -121,6 +121,12 @@ int arrancaPrograma(Empleado* empleados, int limiteEmpleados)
                     contadorEmpleados--;
                     printf("\nEliminacion realizada\n");
                     pausarPantalla();
+                    if(!contadorEmpleados)
+                        {   limpiarPantalla();
+                            flagDatosCargados=0;
+                            printf("Ya no hay usuarios en el sistema\n");
+                            pausarPantalla();
+                        }
                     }
                     else
                     {
@@ -237,7 +243,7 @@ int empleado_altaEmpleado(Empleado* array,int indice, int limite)
 
             !array_getNombre(nombre,51,"\nIngrese su nombre: ", "ERROR!",3) &&
             !array_getNombre(apellido,51,"\nIngrese su apellido: ", "ERROR!",3) &&
-            !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado: ","ERROR!",50)&&
+            !array_getStringFloat(&salario,10,0,100000,"\nIngrese el salario del empleado $:  ","ERROR!",50)&&
             !array_getStringInt(&sector,3,"\nIngrese el sector del empleado: ","ERROR!",3))
 
         {
