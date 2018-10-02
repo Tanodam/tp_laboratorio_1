@@ -119,7 +119,7 @@ int array_StringFloatEsValido (char* pArray, int limiteArray)
        {
             switch(pArray[i])
             {
-                case 46:
+                case 46: //Punto
                     if(i==0 || i==(strlen(pArray)-1))
                     {
                         retorno = 0;
@@ -127,7 +127,7 @@ int array_StringFloatEsValido (char* pArray, int limiteArray)
                     }
                     contadorPuntos++;
                     break;
-                default:
+                default:          ///0                 9
                     if((pArray[i] < 48 || pArray[i] > 57) || contadorPuntos > 1)
                     {
                         retorno = 0;
@@ -155,7 +155,7 @@ int array_StringIntEsValido(char* pArray, int limiteArray)
     {
         retorno = 1;
         for (i=0;i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
-            {
+            {                ///0                 9
                 if(pArray[i] < 48 || pArray[i] > 57 ) ///Verifica que no haya espacios ni caracteres fuera de rango
                     {
                         retorno = 0;
@@ -185,18 +185,18 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
             {
                 switch(pArray[i])
                 {
-                    case 39: //Apostrofe
+                    case 39: ///Apostrofe
                         break;
-                    case 32: //Espacio
+                    case 32: ///Espacio
                         indiceEspacio=i;
                         if(indiceEspacio!=0)
                         {
                             pArray[indiceEspacio+1]=toupper(pArray[indiceEspacio+1]);
                         }
                         break;
-                default:
+                default:           ///a                  z
                     if((pArray[i] < 97) || (pArray[i] > 122))///Verifica que no haya espacios ni caracteres fuera de rango
-                    {
+                    {                ///A                   Z
                         if((pArray[i] < 65) || (pArray[i] > 90))
                         {
                             retorno = 0;
