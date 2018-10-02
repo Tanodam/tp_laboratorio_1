@@ -117,19 +117,23 @@ int array_StringFloatEsValido (char* pArray, int limiteArray)
        retorno = 1;
        for(i=0;i < limiteArray && pArray[i] != '\0';i++)
        {
-            if(pArray[i] == '.')
+            switch(pArray[i])
             {
-                contadorPuntos++;
+                case 46:
+                    if(i==0 || i==(strlen(pArray)-1))
+                    {
+                        retorno = 0;
+                        break;
+                    }
+                    contadorPuntos++;
+                    break;
+                default:
+                    if((pArray[i] < 48 || pArray[i] > 57) || contadorPuntos > 1)
+                    {
+                        retorno = 0;
+                    }
+                    break;
             }
-            if(pArray[i] < '0' || pArray[i] > '9')
-            {
-                if(pArray[i] != '.' || pArray[0] == '.' || contadorPuntos > 1 || pArray[strlen(pArray)-1] == '.')
-                {
-                retorno = 0;
-                break;
-                }
-            }
-
        }
    }
 
@@ -145,18 +149,14 @@ int array_StringIntEsValido(char* pArray, int limiteArray)
 {
     int retorno = 0;
     int i;
-    int stringIngresado;
-    stringIngresado=strlen(pArray)-1;
+
 
     if  ((pArray != NULL && limiteArray > 0))
     {
         retorno = 1;
-        for (i=0; i < limiteArray; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
+        for (i=0;i < limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
             {
-                if( pArray[stringIngresado]!='0' && pArray[stringIngresado]!='1' && pArray[stringIngresado]!='2' &&
-                    pArray[stringIngresado]!='3' && pArray[stringIngresado]!='4' && pArray[stringIngresado]!='5' &&
-                    pArray[stringIngresado]!='6' && pArray[stringIngresado]!='7' && pArray[stringIngresado]!='8' &&
-                    pArray[stringIngresado]!='9') ///Verifica que no haya espacios ni caracteres fuera de rango
+                if(pArray[i] < 48 || pArray[i] > 57 ) ///Verifica que no haya espacios ni caracteres fuera de rango
                     {
                         retorno = 0;
                         break;
@@ -175,6 +175,7 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
 {
     int retorno=-1;
     int i;
+    int indiceEspacio=0;
 
     if((pArray!= NULL && limiteArray > 0) && (strlen(pArray) > 0))
     {
@@ -182,11 +183,31 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
 
         for (i=1;i<limiteArray && pArray[i] != '\0'; i++) ///Recorre el array hasta el ultimo caracter ingresado, no incluye el \0
             {
-                if(pArray[i] == ' ' || (pArray[i] < 'a' || pArray[i] > 'z')) ///Verifica que no haya espacios ni caracteres fuera de rango
+                switch(pArray[i])
                 {
-                    retorno = 0;
+                    case 39: //Apostrofe
+                        break;
+                    case 32: //Espacio
+                        indiceEspacio=i;
+                        if(indiceEspacio!=0)
+                        {
+                            pArray[indiceEspacio+1]=toupper(pArray[indiceEspacio+1]);
+                        }
+                        break;
+                default:
+                    if((pArray[i] < 97) || (pArray[i] > 122))///Verifica que no haya espacios ni caracteres fuera de rango
+                    {
+                        if((pArray[i] < 65) || (pArray[i] > 90))
+                        {
+                            retorno = 0;
+                        }
+                    }
                     break;
+
+
                 }
+
+
             }
     }
     return retorno;
