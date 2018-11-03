@@ -63,9 +63,28 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
  * \return int
  *
  */
-int parser_EmployeeFromBinary(FILE* pFile, LinkedList* pArrayListEmployee)
+int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
-    return 1;
+    int retorno = -1;
+    int cantidadLeida;
+    Employee* pEmployee;
+    Employee* aux = Employee_new();
+
+    if(pFile != NULL && pArrayListEmployee != NULL && ll_len(pArrayListEmployee))
+    {
+        while(!feof(pFile))
+        {
+            pEmployee = Employee_new();
+            cantidadLeida = fread(pEmployee,sizeof(Employee),1,pFile);
+            if(pEmployee != NULL && cantidadLeida == 1)
+            {
+                ll_add(pArrayListEmployee,pEmployee);//Se agrega ELEMENTO a LINKED LIST
+                retorno = 0;
+            }
+        }
+        Employee_delete(aux);
+    }
+    return retorno;
 }
 /** \brief Parsea los datos del linked list al archivo data.csv (modo texto).
  *
@@ -74,7 +93,7 @@ int parser_EmployeeFromBinary(FILE* pFile, LinkedList* pArrayListEmployee)
  * \return int
  *
  */
-int parser_SaveToText(FILE* pFile , LinkedList* pArrayListEmployee)
+int parser_SaveToText(FILE* pFile, LinkedList* pArrayListEmployee)
 {
     Employee* this = NULL;
     int retorno = -1;
@@ -86,8 +105,12 @@ int parser_SaveToText(FILE* pFile , LinkedList* pArrayListEmployee)
 
     if(pFile != NULL && pArrayListEmployee != NULL)
     {
-        for(i=0;i<ll_len(pArrayListEmployee);i++)//Recorro todo el array hasta el LEN
+        for(i=0; i<ll_len(pArrayListEmployee); i++) //Recorro todo el array hasta el LEN
         {
+            if(i==0)
+            {
+                fprintf(pFile,"id,nombre,horas,sueldo\n");///Agrega la cabecera al archivo de texto
+            }
             this = ll_get(pArrayListEmployee,i);//Obtengo el elemento del array en posicion index
             Employee_getNombre(this,bufferNombre);
             Employee_getHorasTrabajadas(this,&bufferHorasTrabajadas);
@@ -100,7 +123,8 @@ int parser_SaveToText(FILE* pFile , LinkedList* pArrayListEmployee)
     }
     return retorno;
 }
-/** \brief Parsea los datos del linked list al archivo data.csv (modo texto).
+
+/** \brief Parsea los datos del linked list al archivo data.csv (modo binario).
  *
  * \param path char*
  * \param pArrayListEmployee LinkedList*
@@ -109,18 +133,25 @@ int parser_SaveToText(FILE* pFile , LinkedList* pArrayListEmployee)
  */
 int parser_SaveToBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
-    Employee* this = NULL;
     int retorno = -1;
     int i = 0;
+    int len;
+    Employee* auxEmployee;
 
     if(pFile != NULL && pArrayListEmployee != NULL)
     {
-        for(i=0;i<ll_len(pArrayListEmployee);i++)
+        len = ll_len(pArrayListEmployee);
+        while(i != len)
         {
-            this = ll_get(pArrayListEmployee,i);
-            fwrite(this,sizeof(Employee),1,pFile);
+            auxEmployee = ll_get(pArrayListEmployee,i);
+            if(auxEmployee != NULL)
+            {
+                fwrite(auxEmployee,sizeof(Employee),1,pFile);
+            }
             retorno = 0;
+            i++;
         }
     }
     return retorno;
 }
+

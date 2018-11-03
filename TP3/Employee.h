@@ -45,4 +45,6 @@ int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja)
 
 int Employee_criterio(void* elementoUno, void* elementoDos);
 
+int Employee_criterioNombre(void* thisA, void* thisB);
+
 #endif // employee_H_INCLUDED

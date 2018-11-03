@@ -512,3 +512,77 @@
 	"ctype.h"
 	"utn.h"
 
+1541265788 source:/home/damian/Descargas/tp_laboratorio_1/TP3/array.c
+	<stdio_ext.h>
+	<stdio.h>
+	<stdlib.h>
+	"string.h"
+	"ctype.h"
+	"utn.h"
+	"array.h"
+	"validator.h"
+
+1541029777 /home/damian/Descargas/tp_laboratorio_1/TP3/utn.h
+
+1541207697 /home/damian/Descargas/tp_laboratorio_1/TP3/array.h
+
+1541198192 /home/damian/Descargas/tp_laboratorio_1/TP3/validator.h
+
+1541284815 source:/home/damian/Descargas/tp_laboratorio_1/TP3/Employee.c
+	"Employee.h"
+	"LinkedList.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"validator.h"
+	"array.h"
+	"utn.h"
+
+1541284656 /home/damian/Descargas/tp_laboratorio_1/TP3/Employee.h
+
+1541029777 /home/damian/Descargas/tp_laboratorio_1/TP3/LinkedList.h
+
+1541265788 source:/home/damian/Descargas/tp_laboratorio_1/TP3/main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Controller.h"
+	"Employee.h"
+
+1541029777 /home/damian/Descargas/tp_laboratorio_1/TP3/Controller.h
+
+1541283203 source:/home/damian/Descargas/tp_laboratorio_1/TP3/parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+
+1541029777 source:/home/damian/Descargas/tp_laboratorio_1/TP3/utn.c
+	"utn.h"
+	<stdio_ext.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"utn.h"
+	"array.h"
+
+1541210029 source:/home/damian/Descargas/tp_laboratorio_1/TP3/validator.c
+	<stdio.h>
+	<stdlib.h>
+	"array.h"
+	"string.h"
+	"ctype.h"
+	"utn.h"
+
+1541284637 source:/home/damian/Descargas/tp_laboratorio_1/TP3/Controller.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+	"parser.h"
+	"utn.h"
+	"array.h"
+
+1541265788 /home/damian/Descargas/tp_laboratorio_1/TP3/parser.h
+

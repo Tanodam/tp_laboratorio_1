@@ -8,7 +8,11 @@
 #include "array.h"
 #include "utn.h"
 #define BUFFER 1024
-
+/**
+*\brief Funcion que valida campo
+*\param char* name campo a validar
+*\return [1] si se valido el campo correctamente - [0] ERROR
+*/
 static int isValidName(char* name)
 {
     int retorno = 0;
@@ -21,7 +25,11 @@ static int isValidName(char* name)
     }
     return retorno;
 }
-
+/**
+*\brief Funcion que valida campo
+*\param char* horas campo a validar
+*\return [1] si se valido el campo correctamente - [0] ERROR
+*/
 static int isValidHoras(char* horas)
 {
     int retorno = 0;
@@ -33,7 +41,11 @@ static int isValidHoras(char* horas)
     }
     return retorno;
 }
-
+/**
+*\brief Funcion que valida campo
+*\param char* sueldo campo a validar
+*\return [1] si se valido el campo correctamente - [0] ERROR
+*/
 static int isValidSueldo(char* sueldo)
 {
     int retorno = 0;
@@ -45,7 +57,11 @@ static int isValidSueldo(char* sueldo)
     }
     return retorno;
 }
-
+/**
+*\brief Funcion que valida campo
+*\param char* id campo a validar
+*\return [1] si se valido el campo correctamente - [0] ERROR
+*/
 static int isValidId(char* id)
 {
     int retorno = 0;
@@ -64,24 +80,41 @@ static int isValidId(char* id)
 
 ///-------------------------------------------------------------------------------------------------------------------------------------------
 
-int Employee_criterio(void* elementoUno, void* elementoDos)
+int Employee_criterio(void* thisA, void* thisB)
 {
     int retorno = 0;
-    if(elementoUno != NULL && elementoDos != NULL)
+    if(((Employee*)thisA)->sueldo > ((Employee*)thisB)->sueldo)
     {
-        Employee* empleadoUno=(Employee*)elementoUno;
-        Employee* empleadoDos=(Employee*)elementoDos;
-        retorno = strcmp(empleadoUno->nombre, empleadoDos->nombre);
+        return 1;
+    }
+    if(((Employee*)thisA)->sueldo < ((Employee*)thisB)->sueldo)
+    {
+        return -1;
     }
 
+    return 0;
+}
+int Employee_criterioNombre(void* thisA, void* thisB)
+{
+    int retorno;
+
+    if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == 0))
+    {
+        retorno = 0;
+    }
+    if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == 1))
+    {
+        retorno = 1;
+    }
+        if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == -1))
+    {
+        retorno = 1;
+    }
     return retorno;
 }
-
-
 /**
 *\brief Funcion que muestra todos los campos de una estructura
 *\param this es el elemento seleccionado para mostrar
-*\param thisB Es el segundo elemento
 *\return [0]= Mostro el elemento - [-1] ERROR
 */
 int employee_mostrar(Employee* this)
@@ -116,33 +149,37 @@ Employee* Employee_new()
 }
 /**
 *\brief Se recorre array para encontrar elemento por ID
-*\param pArray Es el array para recorrer
-*\param idIngresado Es ID para encontrar
-*\return Retorna el elemento sino retorna NULL
+*\param LinkedList* pArrayListEmployee es la lista que se reccore
+*\param int idIngresado es el ID a encontrar
+*\return auxiliarEmpleado si encontre el empleado - NULL si no lo encontre
 */
 Employee* Employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
 {
     Employee* retorno = NULL;
-    int index;
-    Employee* auxEmployee;
-    int auxID;
+    Employee* auxiliarEmpleado;
+    int indice = 0;
+    int auxiliarID = 0;
 
     if(pArrayListEmployee != NULL)
     {
-        for(index=0; index<ll_len(pArrayListEmployee); index++) //Recorro todo el array hasta el LEN
+        for(indice=0; indice<ll_len(pArrayListEmployee); indice++)
         {
-            auxEmployee = ll_get(pArrayListEmployee,index);//Obtengo el elemento del array en posicion index
-            Employee_getId(auxEmployee,&auxID);//Obtengo el ID del elemento
-            if(auxID == idIngresado)
+            auxiliarEmpleado = ll_get(pArrayListEmployee,indice);///En cada iteracion me guardo el empleado completo
+            Employee_getId(auxiliarEmpleado,&auxiliarID);///Saco el ID del empleado
+            if(auxiliarID == idIngresado) /// Comparo ID, si se cummple la igualdad, devuelvo el empleado
             {
-                retorno = auxEmployee;
+                retorno = auxiliarEmpleado;
                 break;
             }
         }
     }
     return retorno;
 }
-
+/**
+*\brief Funcion que modifica todos los campos de la estructura, menos el ID
+*\param LinkedList* pArrayListEmployee es la lista donde se almacenan los empleados
+*\return [0]= Exito y [-1]= ERROR
+*/
 int Employee_editarEmpleado(void* pArrayListEmployee)
 {
     Employee* this = NULL;
@@ -153,34 +190,36 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
 
     if(pArrayListEmployee != NULL )
     {
-        ingresoTeclado("\nIngrese el ID a buscar ","ERROR!",bufferID,BUFFER,isValidId,2);
-        idIngresado = atoi(bufferID);
+        ingresoTeclado("\nIngrese el ID a buscar ","ERROR!",bufferID,BUFFER,isValidId,2); ///Pido el ID y valido que sea un ID valido mediante puntero a la funcion Is ValidId
+        idIngresado = atoi(bufferID); ///Casteo el ID a int para usar la funcion getById
         limpiarPantalla();
-        this = Employee_getById(pArrayListEmployee,idIngresado);
+        this = Employee_getById(pArrayListEmployee,idIngresado); ///GGuardo en this el empleado encontrado para editar
         if(this != NULL)
         {
             do
             {
+                limpiarPantalla();
+                employee_mostrar(this); ///Muestro el empleado para verificar que sea el hay que modificar
+                printf("\nSeleccione el campo que desea modificar\n1) Nombre\n2) Horas trabajadas\n3) Sueldo\n4) Volver");
+                utn_getEntero(&opcion,3,"\nOpcion: ","\nERROR! Ingrese un numero",1,4);
                 retorno = 0;
-                employee_mostrar(this);
-                printf("\nSeleccione el campo que desea modificar\n1) Nombre\n2) Sueldo\n3) Horas trabajadas\n4) Volver");
-                utn_getEntero(&opcion,2,"\nOpcion: ","\nERROR! Ingrese un numero",1,4);
                 switch(opcion)
                 {
                 case 1 :
-                    Employee_modificarEmpleado(this,"\nNOMBRE\n",isValidName,Employee_setNombre);
+                    Employee_modificarEmpleado(this,"\nNOMBRE\n",isValidName,Employee_setNombre); ///Pido nombre, valido y seteo en el campo
                     break;
                 case 2 :
-                    Employee_modificarEmpleado(this,"\nSUELDO\n",isValidSueldo,Employee_setSueldo);
+                    Employee_modificarEmpleado(this,"\nHORAS TRABAJADAS\n",isValidHoras,Employee_setHorasTrabajadas);///Pido horas trabajadas, valido y seteo en el campo
                     break;
                 case 3 :
-                    Employee_modificarEmpleado(this,"\nHORAS TRABAJADAS\n",isValidHoras,Employee_setHorasTrabajadas);
+                    Employee_modificarEmpleado(this,"\nSUELDO\n",isValidSueldo,Employee_setSueldo);///Pido sueldo, valido y seteo en el campo
                     break;
                 case 4 :
                     break;
                 }
             }
             while(opcion != 4);
+
         }
         else
         {
@@ -189,11 +228,19 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
     }
     return retorno;
 }
+/**
+*\brief Funcion que genera un empleado nuevo y guarda todos sus campos mediante la funcion set_campo
+*\param char* idStr ID
+*\param char* nombreStr Nombre
+*\param char* horasTrabajadasStr Horas Trabajadas
+*\param char* sueldoStr Sueldo
+*\return THIS para realizar el ll_add y NULL si hubo algun error en las validaciones
+*/
 Employee* Employee_newConParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
 {
     Employee* this;
     this=Employee_new();
-    if(isValidName(nombreStr) && isValidHoras(horasTrabajadasStr))
+    if(isValidName(nombreStr) && isValidHoras(horasTrabajadasStr) && isValidSueldo(sueldoStr) && isValidId(idStr))
     {
         Employee_setNombre(this,nombreStr);
         Employee_setId(this,idStr);
@@ -225,11 +272,12 @@ int Employee_delete(Employee* this)
     return retorno;
 }
 /**
-*\brief Se modifica un campo del elemento
-*\param this Es el elemento a modificar
-*\param validacion Es el puntero a la funcion de validacion
-*\param set Es el puntero a la funcion set del campo
-*\return Retorna 0 si logra modificar campo sino retorna -1
+*\brief Funcion que modifica los campos de la estructura
+*\param Employee* this Es el elemento a modificar
+*\param char* mensaje a mostrar al usuario
+*\param int (*validacion)(char*) puntero a la funcion que validara el campo
+*\param int (*set)(Employee*,char*) puntero a la funcion que setea el campo
+*\return [0] = Exito y [-1] ERROR
 */
 int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(char*),int (*set)(Employee*,char*))
 {
@@ -244,7 +292,6 @@ int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(
         if(buffer != NULL && !strcasecmp("s",option))
         {
             (*set)(this,buffer);
-            employee_mostrar(this);
             retorno = 0;
         }
     }
@@ -275,11 +322,13 @@ int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja)
         if(this != NULL)
         {
             employee_mostrar(this);
-            array_getLetras(opcion,2,"\nDesea dar de baja? S/N","\nError",2);
+            array_getLetras(opcion,2,"\nDesea dar de baja? S/N ","\nError",2);
             if(!strcasecmp("s",opcion))
             {
                 indice = ll_indexOf(pArrayListEmployee,this);
-                ll_add(listaEmpleadosBaja,ll_pop(pArrayListEmployee,indice));
+                ll_pop(pArrayListEmployee,indice);
+                ll_add(listaEmpleadosBaja,this);
+                retorno = 0;
             }
         }
         else

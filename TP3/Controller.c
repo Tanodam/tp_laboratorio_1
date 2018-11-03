@@ -6,46 +6,50 @@
 #include "utn.h"
 #include "array.h"
 
-
-
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
- *
  * \param path char*
  * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \return [0] Exito y [-1] Error
  */
 int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
 {
     FILE* pArchivo = fopen(path,"r");
     int retorno = -1;
     retorno = parser_EmployeeFromText(pArchivo,pArrayListEmployee);
-    fclose(pArchivo);
     if(retorno!=-1)
     {
         printf("Archivo cargado con exito!\nCantidad empleados: %d\n", ll_len(pArrayListEmployee));
     }
+    fclose(pArchivo);
     return retorno;
 }
-
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
- *
+/** \brief Carga los datos de los empleados desde el archivo data.dat (modo binario).
  * \param path char*
  * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \return * \return [0] Exito y [-1] Error
  */
 int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 {
-    return 1;
+    int retorno = -1;
+    FILE* pArchivo;
+    pArchivo = fopen(path,"rb");
+    retorno = parser_EmployeeFromBinary(pArchivo,pArrayListEmployee);
+    if(retorno != -1)
+    {
+        printf("Archivo cargado con exito!\nCantidad empleados: %d\n", ll_len(pArrayListEmployee));
+        retorno = 0;
+    }
+    else
+    {
+        printf("No hay ningun archivo con datos binarios generado");
+    }
+    fclose(pArchivo);
+    return retorno;
 }
-
 /** \brief Alta de empleados
- *
  * \param path char*
  * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \return * \return [0] Exito y [-1] Error
  */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
@@ -66,11 +70,9 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 }
 
 /** \brief Modificar datos de empleado
- *
  * \param path char*
  * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \return [0] Exito y [-1] Error
  */
 int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
@@ -129,11 +131,11 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     int retorno = -1;
     int i;
     Employee* auxPunteroEmpleado;
-    char nombre[50];
+    char nombre[128];
     int horasTrabajadas = 0;
     int sueldo = 0;
     int id=0;
-    if(pArrayListEmployee!= NULL)
+    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
     {
         retorno = 0;
         for(i=0; i<ll_len(pArrayListEmployee); i++)
@@ -145,6 +147,10 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
             Employee_getHorasTrabajadas(auxPunteroEmpleado,&horasTrabajadas);
             printf("\nID: %d \t Nombre: %s \t HorasTrabajadas: %d \t Sueldo: %d",id,nombre,horasTrabajadas,sueldo);
         }
+    }
+    else
+    {
+        printf("No hay ninguna lista cargada");
     }
     return retorno;
 }
@@ -158,8 +164,7 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
-    ll_sort(pArrayListEmployee,Employee_criterio,0);
-    controller_ListEmployee(pArrayListEmployee);
+    ll_sort(pArrayListEmployee,Employee_criterioNombre,1);
     return 1;
 }
 
@@ -172,12 +177,17 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
  */
 int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
 {
-    FILE* pArchivo = fopen(path,"w");
+    FILE* pArchivo = fopen(path,"w+");
     int retorno = -1;
-    if(pArchivo != NULL && !parser_SaveToText(pArchivo,pArrayListEmployee))
+    if(pArchivo != NULL && !parser_SaveToText(pArchivo,pArrayListEmployee) &&
+            pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
     {
-        printf("\nTEXTO GUARDADO");
         retorno = 0;
+        printf("\nARCHIVO %s GUARDADO CON EXITO", path);
+    }
+    else
+    {
+        printf("No hay ninguna lista cargada\n");
     }
     fclose(pArchivo);
     return retorno;
@@ -192,15 +202,25 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
  */
 int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 {
-    FILE* pArchivo = fopen(path,"wb");
-    int retorno = -1;
-    if(pArchivo != NULL && !parser_SaveToBinary(pArchivo,pArrayListEmployee))
+    FILE *pArchivo = fopen(path, "wb");
+    Employee* pEmpleado;
+    int i;
+
+    if(pArchivo != NULL && pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
     {
-        printf("\nTEXTO GUARDADO");
-        retorno = 0;
+        for(i=0; i<ll_len(pArrayListEmployee); i++)
+        {
+            pEmpleado = ll_get(pArrayListEmployee,i);
+            fwrite(pEmpleado,sizeof(Employee),1,pArchivo);
+        }
+            printf("\nARCHIVO %s GUARDADO CON EXITO", path);
+    }
+    else
+    {
+        printf("No hay ninguna lista cargada\n");
     }
     fclose(pArchivo);
-    return retorno;
+    return 1;
 }
 
 /****************************************************
@@ -243,7 +263,7 @@ int controller_init()
             controller_loadFromText("data.csv",listaEmpleados);
             break;
         case 2:
-            controller_loadFromBinary("data.csv",listaEmpleados);
+            controller_loadFromBinary("data.dat",listaEmpleados);
             break;
         case 3:
             controller_addEmployee(listaEmpleados);
@@ -256,6 +276,7 @@ int controller_init()
             break;
         case 6:
             controller_ListEmployee(listaEmpleados);
+            break;
         case 7:
             controller_ListEmployee(listaEmpleadosBaja);
             break;
@@ -264,11 +285,16 @@ int controller_init()
             break;
         case 9:
             controller_saveAsText("data.csv",listaEmpleados);
+            controller_saveAsText("dataBajas.csv",listaEmpleados);
             break;
         case 10:
             controller_saveAsBinary("data.dat",listaEmpleados);
+            controller_saveAsBinary("dataBajas.dat",listaEmpleados);
             break;
         case 11:
+            controller_saveAsText("data.csv", listaEmpleados);
+            controller_saveAsText("dataBajas.csv", listaEmpleadosBaja);
+            controller_saveAsBinary("data.dat",listaEmpleados);
             break;
         default:
             printf("Opcion Incorrecta\n");
