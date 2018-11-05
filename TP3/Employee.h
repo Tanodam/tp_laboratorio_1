@@ -43,8 +43,12 @@ int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(
 
 int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja);
 
-int Employee_criterio(void* elementoUno, void* elementoDos);
+int Employee_criterioID(void* thisA, void* thisB);
 
-int Employee_criterioNombre(void* thisA, void* thisB);
+int Employee_criterioNombre(void* thisA,void* thisB);
+
+int Employee_criterioSueldo(void* thisA, void* thisB);
+
+void seleccionarCriterioOrdenamiento(void* pArrayListEmployee);
 
 #endif // employee_H_INCLUDED

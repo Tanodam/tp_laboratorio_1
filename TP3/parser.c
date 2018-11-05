@@ -55,14 +55,6 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
 
     return retorno;
 }
-
-/** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
- */
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
@@ -70,7 +62,7 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
     Employee* pEmployee;
     Employee* aux = Employee_new();
 
-    if(pFile != NULL && pArrayListEmployee != NULL && ll_len(pArrayListEmployee))
+    if(pFile != NULL)
     {
         while(!feof(pFile))
         {
@@ -78,11 +70,11 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
             cantidadLeida = fread(pEmployee,sizeof(Employee),1,pFile);
             if(pEmployee != NULL && cantidadLeida == 1)
             {
-                ll_add(pArrayListEmployee,pEmployee);//Se agrega ELEMENTO a LINKED LIST
+                Employee_setId(aux,"0");
+                ll_add(pArrayListEmployee,pEmployee);
                 retorno = 0;
             }
         }
-        Employee_delete(aux);
     }
     return retorno;
 }

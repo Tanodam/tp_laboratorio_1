@@ -80,9 +80,39 @@ static int isValidId(char* id)
 
 ///-------------------------------------------------------------------------------------------------------------------------------------------
 
-int Employee_criterio(void* thisA, void* thisB)
+void seleccionarCriterioOrdenamiento(void* pArrayListEmployee)
 {
-    int retorno = 0;
+    int opcion = 0;
+    int orden = -1;
+    printf("\nEL ORDENAMIENTO PUEDE DEMORAR!");
+    utn_getEntero(&opcion,2,"\nSELECCIONE EL CRITERIO DE ORDENAMIENTO\n1. NOMBRE\n2. SUELDO\n3. ID\n4. Volver\n", "\nOPCION INVALIDA",1,4);
+    if(opcion >= 1 || opcion < 4)
+    {
+        utn_getEntero(&orden,2,"\nSELECCIONE EL ORDEN \n[1] ASCENDENTE - [0] DESCENDENTE\n", "\nOPCION INVALIDA",0,1);
+
+        switch(opcion)
+        {
+        case 1:
+            ll_sort(pArrayListEmployee,Employee_criterioNombre,orden);
+            printf("\nLISTA ORDENADA\n");
+            break;
+        case 2:
+            printf("\nORDENANDO, PUEDE DEMORAR!");
+            ll_sort(pArrayListEmployee,Employee_criterioSueldo,orden);
+            printf("\nLISTA ORDENADA\n");
+            break;
+        case 3:
+            printf("\nORDENANDO, PUEDE DEMORAR!");
+            ll_sort(pArrayListEmployee,Employee_criterioID,orden);
+            printf("\nLISTA ORDENADA\n");
+            break;
+        }
+    }
+    printf("VOLVIENDO AL MENU PRINCIPAL");
+}
+
+int Employee_criterioSueldo(void* thisA, void* thisB)
+{
     if(((Employee*)thisA)->sueldo > ((Employee*)thisB)->sueldo)
     {
         return 1;
@@ -94,20 +124,45 @@ int Employee_criterio(void* thisA, void* thisB)
 
     return 0;
 }
-int Employee_criterioNombre(void* thisA, void* thisB)
-{
-    int retorno;
 
-    if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == 0))
+int Employee_criterioID(void* thisA, void* thisB)
+{
+    if(((Employee*)thisA)->id > ((Employee*)thisB)->id)
     {
-        retorno = 0;
+        return 1;
     }
-    if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == 1))
+    if(((Employee*)thisA)->id < ((Employee*)thisB)->id)
     {
-        retorno = 1;
+        return -1;
     }
-        if((strcmp(((Employee*)thisA)->nombre, ((Employee*)thisA)->nombre) == -1))
+
+    return 0;
+}
+/**
+*\brief Funcion criterio por campo nombre
+*\param thisA Es el primer elemento
+*\param thisB Es el segundo elemento
+*\return Retorna 1 si el campo del primer elemento es mayor al segundo,
+*\       retorna -1 si el campo del primer elemento es menor al segundo,
+*\       retorno 0 si son iguales,
+*/
+int Employee_criterioNombre(void* thisA,void* thisB)
+{
+    int retorno = 0;
+    char bufferNombreUno[BUFFER];
+    char bufferNombreDos[BUFFER];
+
+    Employee_getNombre(((Employee*)thisA),bufferNombreUno);
+    Employee_getNombre(((Employee*)thisB),bufferNombreDos);
+
+    if(strcmp(bufferNombreUno,bufferNombreDos) < 0)
     {
+
+        retorno = -1;
+    }
+    else if(strcmp(bufferNombreUno,bufferNombreDos) > 0)
+    {
+
         retorno = 1;
     }
     return retorno;
