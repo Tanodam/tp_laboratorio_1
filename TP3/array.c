@@ -363,11 +363,9 @@ int array_getLetras(char* pArray,int limiteArray,char* mensaje,char* msjError,in
 }
 int ingresoTeclado(char* mensaje, char* msjError, char* bufferCampo, int limiteArray, int (*validacionCampo)(char*), int reintentos)
 {
-    int retorno=-1;
-    int contadorIntentos=0;
+    int retorno = -1;
+    int contadorIntentos = 0;
     int cantidadDigitos = 0;
-    char* pBufferAux = (char*)malloc(sizeof(char)*1024);
-
 
     if(limiteArray > 0)
     {
@@ -377,19 +375,16 @@ int ingresoTeclado(char* mensaje, char* msjError, char* bufferCampo, int limiteA
             printf("%s", mensaje);
             contadorIntentos++;
             myFlush();
-            if(!getString(pBufferAux,1024))
+            if(!getString(bufferCampo,limiteArray))
             {
-                cantidadDigitos = strlen(pBufferAux);
-                if((*validacionCampo)(pBufferAux)) ///Valido los caracteres, si se cumple 1 y si no
+                if((*validacionCampo)(bufferCampo))
                 {
-                    pBufferAux=(char*)realloc(pBufferAux,sizeof(char)*(cantidadDigitos));
-                    strcpy(bufferCampo,pBufferAux);
                     retorno = 0;
                     break;
                 }
                     else
                 {
-                    printf("%s Intentos restantes %d/%d", msjError,contadorIntentos,reintentos);
+                    printf("%s", msjError);
                     if(contadorIntentos==reintentos)
                     {
                         printf("\nSe han superado los intenos maximos permitidos");

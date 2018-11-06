@@ -287,8 +287,9 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
             do
             {
                 limpiarPantalla();
+                printf("USUARIO ENCONTRADO\n");
                 employee_mostrar(this); ///Muestro el empleado para verificar que sea el hay que modificar
-                printf("\nSeleccione el campo que desea modificar\n1) Nombre\n2) Horas trabajadas\n3) Sueldo\n4) Volver");
+                printf("\n\nSeleccione el campo que desea modificar\n1) Nombre\n2) Horas trabajadas\n3) Sueldo\n4) Volver");
                 utn_getEntero(&opcion,3,"\nOpcion: ","\nERROR! Ingrese un numero",1,4);
                 retorno = 0;
                 switch(opcion)
