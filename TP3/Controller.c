@@ -7,8 +7,8 @@
 #include "array.h"
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
- * \param path char*
- * \param pArrayListEmployee LinkedList*
+ * \param path char* ruta del archivo
+ * \param pArrayListEmployee LinkedList* lista donde se va a guardar el archivo
  * \return [0] Exito y [-1] Error
  */
 int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
@@ -18,15 +18,15 @@ int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
     retorno = parser_EmployeeFromText(pArchivo,pArrayListEmployee);
     if(retorno!=-1)
     {
-        printf("Archivo cargado con exito!\nCantidad empleados: %d\n", ll_len(pArrayListEmployee));
+        printf("ARCHIVO CARGADO CON EXITO!\nCANTIDAD DE EMPLEADOS: %d\n", ll_len(pArrayListEmployee));
     }
     fclose(pArchivo);
     return retorno;
 }
 /** \brief Carga los datos de los empleados desde el archivo data.dat (modo binario).
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return * \return [0] Exito y [-1] Error
+ * \param path char* ruta del archivo
+ * \param pArrayListEmployee LinkedList* lista donde se va a guardar el archivo
+ * \return [0] Exito y [-1] Error
  */
 int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 {
@@ -41,14 +41,13 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
     }
     else
     {
-        printf("No hay ningun archivo con datos binarios generado");
+        printf("NO HAY NINGUN ARCHIVO BINARIO GENERADO");
     }
     fclose(pArchivo);
     return retorno;
 }
 /** \brief Alta de empleados
- * \param path char*
- * \param pArrayListEmployee LinkedList*
+ * \param pArrayListEmployee LinkedList* lista donde se va a cargar el nuevo empleado
  * \return * \return [0] Exito y [-1] Error
  */
 int controller_addEmployee(LinkedList* pArrayListEmployee)
@@ -59,19 +58,18 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
         if(!Employee_nuevoEmpleado(pArrayListEmployee))
         {
             retorno = 0;
-            printf("\nSe agrego un nuevo usuario");
+            printf("\nSE AGREGO UN NUEVO EMPLEADO");
         }
     }
     else
     {
-        printf("No hay ninguna lista cargada");
+        printf("NO HAY NINGUNA LISTA CARGADA");
     }
     return retorno;
 }
 
 /** \brief Modificar datos de empleado
- * \param path char*
- * \param pArrayListEmployee LinkedList*
+ * \param pArrayListEmployee LinkedList* lista donde se encuentra el empleado a modificar
  * \return [0] Exito y [-1] Error
  */
 int controller_editEmployee(LinkedList* pArrayListEmployee)
@@ -94,11 +92,10 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 }
 
 /** \brief Baja de empleado
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
+
+ * \param LinkedList* pArrayListEmployee lista donde se encuentra el empleado a eliminar
+ * \param LinkedList* listaEmpleadosBaja lista destino donde el ll_pop va a dejar el empleado eliminado
+ * \return [0] Exito y [-1] Error
  */
 int controller_removeEmployee(LinkedList* pArrayListEmployee, LinkedList* listaEmpleadosBaja)
 {
@@ -108,29 +105,26 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee, LinkedList* listaE
     {
         if(!employee_eliminarEmpleado(pArrayListEmployee, listaEmpleadosBaja))
         {
-            printf("\nEl empleado fue eliminado");
+            printf("\nEL EMPLEADO FUE ELIMINADO");
             retorno = 0;
         }
     }
     else
     {
-        printf("No hay ninguna lista cargada");
+        printf("NO HAY NINGUNA LISTA CARGADA");
     }
     return retorno;
 }
 
 /** \brief Listar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \param pArrayListEmployee LinkedList* lista que se va a mostrar
+ * \return [0] Exito y [-1] Error
  */
 int controller_ListEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
     int i;
-    Employee* auxPunteroEmpleado;
+    Employee* auxiliarEmpleado;
     char nombre[128];
     int horasTrabajadas = 0;
     int sueldo = 0;
@@ -140,27 +134,25 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
         retorno = 0;
         for(i=0; i<ll_len(pArrayListEmployee); i++)
         {
-            auxPunteroEmpleado = ll_get(pArrayListEmployee,i);
-            Employee_getNombre(auxPunteroEmpleado,nombre);
-            Employee_getId(auxPunteroEmpleado,&id);
-            Employee_getSueldo(auxPunteroEmpleado,&sueldo);
-            Employee_getHorasTrabajadas(auxPunteroEmpleado,&horasTrabajadas);
+            auxiliarEmpleado = ll_get(pArrayListEmployee,i);
+            Employee_getNombre(auxiliarEmpleado,nombre);
+            Employee_getId(auxiliarEmpleado,&id);
+            Employee_getSueldo(auxiliarEmpleado,&sueldo);
+            Employee_getHorasTrabajadas(auxiliarEmpleado,&horasTrabajadas);
             printf("\nID: %d \t Nombre: %s \t HorasTrabajadas: %d \t Sueldo: %d",id,nombre,horasTrabajadas,sueldo);
         }
     }
     else
     {
-        printf("No hay ninguna lista cargada");
+        printf("NO HAY NINGUNA LISTA CARGADA");
     }
+    printf("\n\nCANTIDAD DE EMPLEADOS: %d", ll_len(pArrayListEmployee));
     return retorno;
 }
 
 /** \brief Ordenar empleados
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \param pArrayListEmployee LinkedList* lista de empleados que se va a ordenar
+ * \return [0] Exito y [-1] Error
  */
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
@@ -172,15 +164,15 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     }
     else
     {
-        printf("No hay ninguna lista cargada\n");
+        printf("NO HAY NINGUNA LISTA CARGADA");
     }
     return retorno;
 }
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
+ * \param path char* ruta del archivo
+ * \param pArrayListEmployee LinkedList* lista que se va a guardar
+ * \return [0] Exito y [-1] Error
  *
  */
 int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
@@ -200,13 +192,9 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
     fclose(pArchivo);
     return retorno;
 }
-
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
- *
- * \param path char*
- * \param pArrayListEmployee LinkedList*
- * \return int
- *
+ * \param pArrayListEmployee LinkedList* lista que se va a guardar
+ * \return [0] Exito y [-1] Error
  */
 int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 {
@@ -225,11 +213,14 @@ int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
     }
     else
     {
-        printf("No hay ninguna lista cargada\n");
+        printf("NO HAY NINGUNA LISTA CARGADA");
     }
     fclose(pArchivo);
     return 1;
 }
+/** \brief Funcion que ejecuta el menu principal
+ * \return void
+ */
 /****************************************************
     Menu:
      1. Cargar los datos de los empleados desde el archivo data.csv (modo texto).
@@ -248,11 +239,11 @@ int controller_saveAsBinary(char* path, LinkedList* pArrayListEmployee)
 void controller_init()
 {
     int option = 0;
-    LinkedList* listaEmpleados = ll_newLinkedList();
-    LinkedList* listaEmpleadosBaja=ll_newLinkedList();
+    LinkedList* listaEmpleados = ll_newLinkedList(); ///Lista de activos
+    LinkedList* listaEmpleadosBaja=ll_newLinkedList();///Lista de inactivos
     do
     {
-        system("clear");
+        limpiarPantalla();
         utn_getEntero(&option,2,"1. Carga de empleados (modo texto)\n"
                       "2. Carga de empleados (modo binario)\n"
                       "3. Alta empleado\n"
@@ -263,7 +254,7 @@ void controller_init()
                       "8. Ordenar empleados\n"
                       "9. Guardar empleados (modo texto)\n"
                       "10. Guardar empleados (modo binario)\n"
-                      "11. Salir\n","Opcion invalida\n", 1,11);
+                      "11. Salir\n\nOpcion: ","Opcion invalida\n", 1,11);
         switch(option)
         {
         case 1:

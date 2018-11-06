@@ -205,11 +205,7 @@ int array_StringCharEsValido (char* pArray, int limiteArray)
                     }
                 }
                 break;
-
-
             }
-
-
         }
     }
     return retorno;
@@ -248,7 +244,7 @@ int isValidCuilOrCuit(char *pBuffer, int limite)
  * \return 1 si contiene solo ' ' y letras y 0 si no lo es
  *
  */
-int validacion_Letras(char* array,int size)
+int array_StringCharEsValidoDos(char* array,int size)
 {
     int retorno = 0;
     int i;

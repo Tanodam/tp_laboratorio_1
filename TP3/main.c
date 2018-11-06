@@ -1,3 +1,10 @@
+/****************************************************
+    TP 3
+    Alumno: Desario Damian
+    Curso: 1°H
+    Legajo: 104.327
+    Fecha: 06/11/2018
+*****************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include "LinkedList.h"
@@ -6,7 +13,6 @@
 
 int main()
 {
-    ///Comienza la magia
     controller_init();
     return 0;
 }

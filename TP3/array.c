@@ -101,7 +101,7 @@ char array_getNombre(char* pArray, int limiteArray, char* mensaje, char* mensaje
                 }
                 else
                 {
-                    printf("%s Intentos restantes %d/%d", mensajeError,contadorIntentos,reintentos);
+                    printf("%s\n", mensajeError);
                     if(contadorIntentos==reintentos)
                     {
                         printf("\nSe han superado los intenos maximos permitidos");
@@ -346,7 +346,7 @@ int array_getLetras(char* pArray,int limiteArray,char* mensaje,char* msjError,in
         {
             reintentos--;
             printf("%s",mensaje);
-            if(getString(buffer,limiteArray) == 0 && validacion_Letras(buffer,limiteArray))
+            if(getString(buffer,limiteArray) == 0 && array_StringCharEsValidoDos(buffer,limiteArray))
             {
                 strncpy(pArray,buffer,limiteArray);//Se copia string cargado a variable local
                 retorno = 0;
