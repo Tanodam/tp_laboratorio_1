@@ -15,22 +15,23 @@
 
 1541478869 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/validator.h
 
-1542374331 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/Controller.c
+1542395726 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/Controller.c
 	<stdio.h>
 	<stdlib.h>
+	<string.h>
 	"LinkedList.h"
 	"Employee.h"
 	"parser.h"
 	"utn.h"
 	"array.h"
 
-1542333337 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/LinkedList.h
+1542380311 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/LinkedList.h
 
-1542370299 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/Employee.h
+1542380200 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/Employee.h
 
-1541357594 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/parser.h
+1542393402 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/parser.h
 
-1542373640 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/Employee.c
+1542387390 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/Employee.c
 	"Employee.h"
 	"LinkedList.h"
 	<stdio.h>
@@ -41,13 +42,13 @@
 	"array.h"
 	"utn.h"
 
-1542373615 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/LinkedList.c
+1542380375 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/LinkedList.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"LinkedList.h"
 
-1542333601 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/main.c
+1542385828 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/main.c
 	<stdio.h>
 	<stdlib.h>
 	"LinkedList.h"
@@ -56,7 +57,7 @@
 
 1541478700 /home/damian/Escritorio/trabajos_en_clase/TP4 Final/Controller.h
 
-1542373485 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/parser.c
+1542393402 source:/home/damian/Escritorio/trabajos_en_clase/TP4 Final/parser.c
 	<stdio.h>
 	<stdlib.h>
 	"LinkedList.h"

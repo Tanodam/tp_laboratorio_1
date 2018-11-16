@@ -78,6 +78,24 @@ static int isValidId(char* id)
     }
     return retorno;
 }
+int employee_filtrarEmpleadosHoras(void* pElemento)
+{
+    int retorno = -1;
+    int auxHoras = 0;
+    int filtro = -1;
+    //utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
+
+    if(pElemento != NULL)
+    {
+        Employee_getHorasTrabajadas(pElemento,&auxHoras);
+        if(auxHoras >= 50)
+        {
+            retorno = 0;
+        }
+
+    }
+    return retorno;
+}
 ///--------------------------------------------------------------ORDENAR-----------------------------------------------------------------------------
 /**
 *\brief Funcion maestra de ordenamiento, ejecuta switch que permite al usuario seleccionar criterio[NOMBRE - SUELDO - ID] y orden [ASCENDENTE - DESCENDENTE]

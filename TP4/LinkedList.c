@@ -578,7 +578,7 @@ Segun criterio se filtran los elementos y se retorna nuevo linkedlist
 con los elementos que cumplen con la funcion pasada como criterio
 */
 
-LinkedList* ll_filter(LinkedList* this,int (*pFunc)(void*))
+void* ll_filter(void* this,int (*pFunc)(void*))
 {
     LinkedList* subList = NULL;
     int i;

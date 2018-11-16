@@ -55,3 +55,4 @@ LinkedList* ll_clone(LinkedList* this);
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order);
 void ll_starIter (LinkedList* this);
 void* ll_getNext();
+void* ll_filter(void* this,int (*pFunc)(void*));

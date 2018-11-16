@@ -34,7 +34,7 @@ int Employee_criterioNombre(void* thisA,void* thisB);
 int Employee_criterioSueldo(void* thisA, void* thisB);
 void seleccionarCriterioOrdenamiento(void* pArrayListEmployee);
 
-int employee_sorteo(void* empleado);
 int ll_map(void* this, int (*pFunc)(void*));
+int employee_filtrarEmpleadosHoras(void* pElemento);
 
 #endif // employee_H_INCLUDED
