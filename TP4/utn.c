@@ -22,23 +22,29 @@ static int isInt(char *pBuffer);
 *\return Exito=0 y Error=1
 *
 */
-int utn_getEntero(int* pEntero,int reintentos,char* msg,char*msgError,int min,int max){
+int utn_getEntero(int* pEntero,int reintentos,char* msg,char*msgError,int min,int max)
+{
     int retorno = -1;
     int buffer;
 
-    if(pEntero!=NULL&& msg !=NULL && msgError!=NULL && min<= max && reintentos>=0){
+    if(pEntero!=NULL&& msg !=NULL && msgError!=NULL && min<= max && reintentos>=0)
+    {
         do
         {
             reintentos--;
             printf("%s",msg);
-            if(getInt(&buffer) == 0 && buffer >= min && buffer<=max){
-                    *pEntero= buffer;
-                    retorno = 0;
-                    break;
-            }else{
+            if(getInt(&buffer) == 0 && buffer >= min && buffer<=max)
+            {
+                *pEntero= buffer;
+                retorno = 0;
+                break;
+            }
+            else
+            {
                 printf("%s",msgError);
             }
-        }while(reintentos >= 0);
+        }
+        while(reintentos >= 0);
     }
     return retorno;
 }
@@ -57,19 +63,24 @@ int utn_getFloat(float*pFloat,int reintentos,char* msg,char*msgError,float min,f
     int retorno = -1;
     float buffer;
 
-    if(pFloat!=NULL&& msg !=NULL && msgError!=NULL && min<= max && reintentos>=0){
+    if(pFloat!=NULL&& msg !=NULL && msgError!=NULL && min<= max && reintentos>=0)
+    {
         do
         {
             reintentos--;
             printf("%s: ",msg);
-            if(getFloat(&buffer) == 0 && buffer >= min && buffer<=max){
-                    *pFloat= buffer;
-                    retorno = 0;
-                    break;
-            }else{
+            if(getFloat(&buffer) == 0 && buffer >= min && buffer<=max)
+            {
+                *pFloat= buffer;
+                retorno = 0;
+                break;
+            }
+            else
+            {
                 printf("%s",msgError);
             }
-        }while(reintentos >= 0);
+        }
+        while(reintentos >= 0);
     }
     return retorno;
 }
@@ -82,7 +93,8 @@ static int getInt(int* pBuffer)
 {
     char bufferString[200];
     int retorno =-1;
-    if(getStrings(bufferString,200)==0 && isInt(bufferString)==0){
+    if(getStrings(bufferString,200)==0 && isInt(bufferString)==0)
+    {
         *pBuffer=atoi(bufferString);
         retorno=0;
     }
@@ -98,13 +110,17 @@ static int isInt(char *pBuffer)
 {
     int retorno=-1;
     int i=0;
-    do{
-        if(*(pBuffer+i)<48||*(pBuffer+i)>57){
-                break;
+    do
+    {
+        if(*(pBuffer+i)<48||*(pBuffer+i)>57)
+        {
+            break;
         }
         i++;
-    }while (i<strlen(pBuffer));
-    if(i==strlen(pBuffer)){
+    }
+    while (i<strlen(pBuffer));
+    if(i==strlen(pBuffer))
+    {
         retorno=0;
     }
     return retorno;
@@ -120,19 +136,26 @@ static int isFloat(char* pBuffer)
     int retorno=-1;
     int i=0;
     int contadorDePuntos=0;
-    do{
-        if(*(pBuffer+i)==','||*(pBuffer+i)=='.'){
+    do
+    {
+        if(*(pBuffer+i)==','||*(pBuffer+i)=='.')
+        {
             *(pBuffer+i)='.';
             contadorDePuntos++;
-            if(contadorDePuntos==2){
+            if(contadorDePuntos==2)
+            {
                 break;
             }
-        }else if(*(pBuffer+i)<48||*(pBuffer+i)>57){
-                break;
+        }
+        else if(*(pBuffer+i)<48||*(pBuffer+i)>57)
+        {
+            break;
         }
         i++;
-    }while (i<strlen(pBuffer));
-    if(i==strlen(pBuffer)){
+    }
+    while (i<strlen(pBuffer));
+    if(i==strlen(pBuffer))
+    {
         retorno=0;
     }
     return retorno;
@@ -148,13 +171,16 @@ int getStrings(char* pBuffer,int limite)
 {
     char bufferString[4096];
     int retorno =-1;
-    if (pBuffer != NULL && limite >0){
+    if (pBuffer != NULL && limite >0)
+    {
         myFlush();
         fgets(bufferString,sizeof(bufferString),stdin);
-        if (bufferString[strlen(bufferString)-1]=='\n'){
+        if (bufferString[strlen(bufferString)-1]=='\n')
+        {
             bufferString[strlen(bufferString)-1]='\0';
         }
-        if(strlen(bufferString)<= limite){
+        if(strlen(bufferString)<= limite)
+        {
             strncpy(pBuffer,bufferString,limite);
             retorno=0;
         }
@@ -166,12 +192,33 @@ int getStrings(char* pBuffer,int limite)
 *\param pArray Puntero a la direccion de memoria donde se va almacenar el string que se tomo por consola
 *\return Exito=0 y Error=-1
 */
-static int getFloat(float*pBuffer){
+static int getFloat(float*pBuffer)
+{
     char bufferString[200];
     int retorno =-1;
-    if(getStrings(bufferString,200)==0 && isFloat(bufferString)==0){
+    if(getStrings(bufferString,200)==0 && isFloat(bufferString)==0)
+    {
         *pBuffer=atof(bufferString);
         retorno=0;
+    }
+    return retorno;
+}
+/**
+*\brief Funcion  que se encarga de pedirle al usuario que confirme una accion
+*\param char* mensaje a mostrarle al usuario
+*\param char* msjError a mostrarle al usuario si hay un error
+*\param int reintentos cantidad de reintentos
+*\return Exito=0 y Error=-1
+*/
+int utn_confirmarLetras(char* mensaje, char* msjError, int reintentos)
+{
+    int retorno = -1;
+    char opcion[2];
+
+    array_getLetras(opcion,2,mensaje,msjError,reintentos);
+    if(!strcasecmp(opcion,"s"))
+    {
+        retorno = 0;
     }
     return retorno;
 }

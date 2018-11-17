@@ -288,7 +288,7 @@ Employee* Employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
 int Employee_editarEmpleado(void* pArrayListEmployee)
 {
     Employee* this = NULL;
-    Employee* auxEmpleado = Employee_new();
+    Employee* auxEmpleado;
     int retorno = -1;
     char bufferID[BUFFER];
     int opcion;
@@ -305,10 +305,10 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
         if(this != NULL && ll_contains(pArrayListEmployee, this))
         {
             printf("\nID ENCONTRADO\n");
+            auxEmpleado = employee_copy(this);
             do
             {
                 limpiarPantalla();
-                auxEmpleado = employee_copy(this);
                 employee_mostrar(auxEmpleado); ///Muestro el empleado para verificar que sea el hay que modificar
                 printf("\n\nSeleccione el campo que desea modificar\n1) Nombre\n2) Horas trabajadas\n3) Sueldo\n4) Volver");
                 utn_getEntero(&opcion,3,"\nOpcion: ","\nERROR! Ingrese un numero",1,4);
@@ -338,6 +338,12 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
     }
     return retorno;
 }
+/**
+*\brief Funcion que copia los datos del empleado pasado por parametro en un usuario auxiliar.d
+        [FUNCION CREADA ADREDE PARA PODER USAR LL_SET EN EMPLOYEE_EDITAR]
+*\param Employee* source es el empleado que hay que copiar en Employee* destination
+*\return [0]= Exito y [-1]= ERROR
+*/
 Employee* employee_copy(Employee* source)
 {
     Employee* destination = Employee_new();
@@ -377,7 +383,9 @@ int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(
         array_getLetras(opcion,2,"\nMODIFICAR DATO? S/N\n","\nERROR!",2);
         if(buffer != NULL && !strcasecmp(opcion,"s"))
         {
+
             (*set)(this,buffer);
+
             retorno = 0;
         }
     }

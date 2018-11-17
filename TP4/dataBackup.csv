@@ -913,6 +913,7 @@ id,nombre,horas,sueldo
 912,Oren,120,20000
 913,Anetta,60,10000
 914,Curry,88,20000
+915,Tyrone,180,15000
 916,Saunder,180,37000
 917,Luis,60,12000
 918,Alysia,325,37000
@@ -997,3 +998,4 @@ id,nombre,horas,sueldo
 997,De Witt,88,12000
 998,Jaye,75,25000
 999,Tamarra,60,15000
+1000,Sarasa,60,20000

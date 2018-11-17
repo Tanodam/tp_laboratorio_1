@@ -225,28 +225,33 @@ int ll_set(LinkedList* this, int index,void* pElement)
 int ll_remove(LinkedList* this,int index)
 {
     int returnAux = -1;
-    Node* pDeleteNode = NULL;
-    Node* auxNode = NULL;
-    Node* siguienteNodo = NULL;
-    Node* anteriorNodo = NULL;
+    Node* auxNode;
+    Node* currentNode;
+    Node* previousNode;
 
-    if(this != NULL && index >= 0 && index < ll_len(this) && ll_len(this) > 0)
+    if(this!= NULL && index >= 0 && index < ll_len(this) )
     {
-        pDeleteNode = getNode(this, index);
-        if(index == 0)
+        if(this->pFirstNode != NULL && index == 0)//Nodo al comienzo
         {
-            this->pFirstNode = pDeleteNode->pNextNode;
-            free(pDeleteNode);
+            auxNode = this->pFirstNode;//Se copia el primer nodo
+            this->pFirstNode = auxNode->pNextNode;//Se enlaza al next del primer nodo
+
+            free(auxNode);//Se elimina el primer nodo
+            this->size = ll_len(this) - 1;
+
+            returnAux = 0;
         }
-        else if(index >0 && index <= ll_len(this))
+        else if(this->pFirstNode != NULL && index > 0 && index <= ll_len(this))//Medio
         {
-            siguienteNodo = getNode(this, index+1);
-            anteriorNodo = getNode(this, index-1);
-            anteriorNodo->pNextNode = siguienteNodo;
-            free(auxNode);
+            currentNode = getNode(this,index);//Se copia el nodo del index
+            previousNode = getNode(this,index-1);//Se copia el nodo previo al index
+            previousNode->pNextNode = currentNode->pNextNode;//Se enlaza el anterior con el next del index
+
+            free(currentNode);//Se elimina el nodo del index
+            this->size = ll_len(this) - 1;
+
+            returnAux = 0;
         }
-        this->size--;
-        returnAux = 0;
     }
     return returnAux;
 }
@@ -263,18 +268,17 @@ int ll_clear(LinkedList* this)
 {
     int returnAux = -1;
     int i = 0;
+
     if(this != NULL)
     {
-        for(i=0 ; i<ll_len(this) ; i++)
+        for(i=0;i<ll_len(this);i++)
         {
-            ll_remove(this, i);
+            ll_remove(this,i);
         }
         returnAux = 0;
     }
     return returnAux;
 }
-
-
 /** \brief Elimina todos los elementos de la lista y la lista
  *
  * \param this LinkedList* Puntero a la lista

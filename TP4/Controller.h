@@ -12,5 +12,6 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee);
 int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee);
 void controller_init();
 int controller_deleteAndBackupList(LinkedList* pArrayListEmployee);
+LinkedList* controller_cloneList(LinkedList* pArrayListEmployee);
 
 #endif //controller_H_INCLUDED
