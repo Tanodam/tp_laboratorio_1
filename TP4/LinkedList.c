@@ -478,7 +478,7 @@ LinkedList* ll_subList(LinkedList* this,int from,int to)
     if(this != NULL && from >= 0 && from < ll_len(this) && to >= 0 && to <= ll_len(this))
     {
         cloneArray = ll_newLinkedList();
-        for(i=from ; i<=to ; i++)
+        for(i=from-1 ; i<=to ; i++)
         {
             auxNode = ll_get(this, i);
             ll_add(cloneArray,auxNode);

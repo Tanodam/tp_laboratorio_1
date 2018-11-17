@@ -13,5 +13,6 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee);
 void controller_init();
 int controller_deleteAndBackupList(LinkedList* pArrayListEmployee);
 LinkedList* controller_cloneList(LinkedList* pArrayListEmployee);
+int controller_createSubList(LinkedList* pArraylistEmployee);
 
 #endif //controller_H_INCLUDED

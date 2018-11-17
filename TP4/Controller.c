@@ -75,7 +75,8 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
-    if(pArrayListEmployee != NULL || !ll_isEmpty(pArrayListEmployee))
+    if(pArrayListEmployee != NULL ||
+        !ll_isEmpty(pArrayListEmployee))
     {
         if(!Employee_nuevoEmpleado(pArrayListEmployee))
         {
@@ -220,6 +221,26 @@ int controller_deleteAndBackupList(LinkedList* pArrayListEmployee)
     else
     {
         printf("NO HAY NINGUNA LISTA CARGADA");
+    }
+    return retorno;
+}
+
+int controller_createSubList(LinkedList* pArraylistEmployee)
+{
+    int retorno = -1;
+    LinkedList* subList = employee_subList(pArraylistEmployee);
+
+    if(!ll_isEmpty(subList) && ll_len(subList) > 0 && !ll_isEmpty(pArraylistEmployee) && ll_len(pArraylistEmployee))
+    {
+        printf("\nSUBLISTA CREADA\n");
+        if(!controller_saveAsText("subList.csv",subList))
+        {
+            retorno = 0;
+        }
+    else
+    {
+        printf("\nSUBLISTA NO GUARDADA\n");
+    }
     }
     return retorno;
 }
@@ -370,7 +391,7 @@ void controller_init()
                       "8. Listar empleados\n"
                       "9. Listar empleados de baja\n"
                       "10. Ordenar empleados\n"
-                      "11. Filtrar empleados\n"
+                      "11. Crear sublistas de empleados\n"
                       "12. Guardar empleados (modo texto)\n"
                       "13. Guardar empleados (modo binario)\n"
                       "14. Salir\n\nOpcion: ","Opcion invalida\n", 1,15);
@@ -407,27 +428,25 @@ void controller_init()
             controller_ListEmployee(listaEmpleados);
             break;
         case 9:
-            controller_ListEmployee(listaEmpleadosBaja);
+            //controller_ListEmployee(listaEmpleadosBaja);
+            controller_createSubList(listaEmpleados);
             break;
         case 10:
             controller_sortEmployee(listaEmpleados);
             break;
         case 11:
-            controller_filter(listaEmpleados);
-            break;
-        case 12:
             printf("\nACTIVOS\n");
             controller_saveAsText("data.csv",listaEmpleados);
             printf("\nINACTIVOS\n");
             controller_saveAsText("dataBajas.csv",listaEmpleadosBaja);
             break;
-        case 13:
+        case 12:
             printf("\nACTIVOS");
             controller_saveAsBinary("data.dat",listaEmpleados);
             printf("\nINACTIVOS");
             controller_saveAsBinary("dataBajas.dat",listaEmpleadosBaja);
             break;
-        case 14:
+        case 13:
             break;
         default:
             printf("Opcion Incorrecta\n");
@@ -437,5 +456,5 @@ void controller_init()
         myFlush();
         getchar();
     }
-    while(option != 14);
+    while(option != 13);
 }

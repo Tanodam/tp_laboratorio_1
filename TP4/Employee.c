@@ -302,6 +302,7 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
         limpiarPantalla();
         this = Employee_getById(pArrayListEmployee,idIngresado); ///Guardo en this el empleado encontrado para editar
         index = ll_indexOf(pArrayListEmployee,this);
+
         if(this != NULL && ll_contains(pArrayListEmployee, this))
         {
             printf("\nID ENCONTRADO\n");
@@ -654,7 +655,6 @@ int Employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas)
     }
     return retorno;
 }
-
 /**
  * \brief Funcion que setea el campo sueldo
  * \param Employee* this Empleado al que se le va a setear el sueldo
@@ -673,6 +673,43 @@ int Employee_setSueldo(Employee* this,char* sueldo)
         retorno=0;
     }
     return retorno;
+}
+/**
+ * \brief Funcion que crea una sublista en base al criterio seleccionado por el usuario
+ * \param Employee* this Empleado al que se le va a setear el sueldo
+ * \param char* sueldo string de sueldo a setear, se realiza un atoi antes del seteo
+ * \return [0] EXITO - [-1] ERROR
+ */
+void* employee_subList(void* pArrayLinkedList)
+{
+    int option;
+    LinkedList* subList = NULL;
+    limpiarPantalla();
+    utn_getEntero(&option,2,"1. Crear una lista de los primeros 250 empleados\n"
+                            "2. Crear una una lista desde el empleado 250 hasta el 500\n"
+                            "3. Crear una una lista desde el empleado 500 hasta el 750\n"
+                            "4. Crear una una lista desde el empleado 750 hasta el ultimo\n"
+                            "5. Salir\nINGRESE EL CRITERIO DESEADO\nOpcion: ", "ERROR! INGRESE UNA OPCION VALIDA (1-5)",1,5);
+    switch(option)
+    {
+        case 1:
+            subList = ll_subList(pArrayLinkedList,0,250);
+            break;
+        case 2:
+            subList = ll_subList(pArrayLinkedList,250,500);
+            break;
+        case 3:
+            subList = ll_subList(pArrayLinkedList,500,750);
+            break;
+        case 4:
+            subList = ll_subList(pArrayLinkedList,750,ll_len(pArrayLinkedList));
+            break;
+        case 5:
+            break;
+        default:
+            break;
+    }
+    return subList;
 }
 ///--------------------------------------------GETTERS----------------------------------------------------------------------------
 /**
