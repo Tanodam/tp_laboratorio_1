@@ -33,7 +33,7 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
                 strncpy(bufferNombre,strtok(NULL,","),BUFFER);
                 strncpy(bufferHoras,strtok(NULL,","),BUFFER);
                 strncpy(bufferSueldo,strtok(NULL,"\n"),BUFFER);
-                pEmpleado = Employee_newConParametros(bufferId,bufferNombre,bufferHoras,bufferSueldo);
+                pEmpleado = employee_newConParametros(bufferId,bufferNombre,bufferHoras,bufferSueldo);
                 //printf("%s - %s - %s - %s\n", bufferId,bufferNombre,bufferHoras,bufferSueldo);
 
                 if(pEmpleado != NULL && !ll_add(pArrayListEmployee,pEmpleado))
@@ -100,17 +100,17 @@ int parser_EmployeeFromBinary(FILE* pFile, LinkedList* pArrayListEmployee)
     int retorno = -1;
     int cantidadLeida;
     Employee* pEmployee;
-    Employee* aux = Employee_new();
+    Employee* aux = employee_new();
 
     if(pFile != NULL)
     {
         while(!feof(pFile))
         {
-            pEmployee = Employee_new();
+            pEmployee = employee_new();
             cantidadLeida = fread(pEmployee,sizeof(Employee),1,pFile);
             if(pEmployee != NULL && cantidadLeida == 1)
             {
-                Employee_setId(aux,"0");
+                employee_setId(aux,"0");
                 ll_add(pArrayListEmployee,pEmployee);
                 retorno = 0;
             }
@@ -142,10 +142,10 @@ int parser_SaveToText(FILE* pFile, LinkedList* pArrayListEmployee)
                 fprintf(pFile,"id,nombre,horas,sueldo\n");///Agrega la cabecera al archivo de texto
             }
             this = ll_get(pArrayListEmployee,i);
-            Employee_getNombre(this,bufferNombre);
-            Employee_getHorasTrabajadas(this,&bufferHorasTrabajadas);
-            Employee_getSueldo(this,&bufferSueldo);
-            Employee_getId(this,&bufferId);
+            employee_getNombre(this,bufferNombre);
+            employee_getHorasTrabajadas(this,&bufferHorasTrabajadas);
+            employee_getSueldo(this,&bufferSueldo);
+            employee_getId(this,&bufferId);
             fprintf(pFile,"%d,%s,%d,%d\n",bufferId,bufferNombre,bufferHorasTrabajadas,bufferSueldo);
             retorno = 0;
         }

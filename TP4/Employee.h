@@ -8,36 +8,35 @@ typedef struct
     int sueldo;
 }Employee;
 
-Employee* Employee_new();
-Employee* Employee_newConParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr);
+Employee* employee_new();
+Employee* employee_newConParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr);
 
-int Employee_setId(Employee* this,char* id);
-int Employee_setNombre(Employee* this,char* nombre);
-int Employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas);
-int Employee_setSueldo(Employee* this,char* sueldo);
+int employee_setId(Employee* this,char* id);
+int employee_setNombre(Employee* this,char* nombre);
+int employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas);
+int employee_setSueldo(Employee* this,char* sueldo);
 
-int Employee_getId(Employee* this,int* id);
-int Employee_getNombre(Employee* this,char* nombre);
-int Employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
-int Employee_getSueldo(Employee* this,int* sueldo);
+int employee_getId(Employee* this,int* id);
+int employee_getNombre(Employee* this,char* nombre);
+int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas);
+int employee_getSueldo(Employee* this,int* sueldo);
 
-int Employee_delete(Employee* this);
-int Employee_nuevoEmpleado(void* pArrayListEmployee);
-int Employee_getNextID(void* pArrayListEmployee);
-int Employee_editarEmpleado(void* pArrayListEmployee);
+int employee_delete(Employee* this);
+int employee_nuevoEmpleado(void* pArrayListEmployee);
+int employee_editarEmpleado(void* pArrayListEmployee);
 int employee_mostrar(Employee* this);
-int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(char*),int (*set)(Employee*,char*));
+int employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(char*),int (*set)(Employee*,char*));
 int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja);
 
-int Employee_criterioID(void* thisA, void* thisB);
-int Employee_criterioNombre(void* thisA,void* thisB);
-int Employee_criterioSueldo(void* thisA, void* thisB);
+int employee_criterioID(void* thisA, void* thisB);
+int employee_criterioNombre(void* thisA,void* thisB);
+int employee_criterioSueldo(void* thisA, void* thisB);
 void seleccionarCriterioOrdenamiento(void* pArrayListEmployee);
 
-int ll_map(void* this, int (*pFunc)(void*));
 int employee_filtrarEmpleadosHoras(void* pElemento);
 int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleadosBaja);
 Employee* employee_copy(Employee* source);
 void* employee_subList(void* pArrayLinkedList);
+int employee_getNextId();
 
 #endif // employee_H_INCLUDED

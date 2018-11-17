@@ -27,6 +27,7 @@ struct Node
 struct LinkedList
 {
     Node* pFirstNode;
+    Node* itNode;
     int size;
 }typedef LinkedList;
 #endif
@@ -53,6 +54,7 @@ int ll_containsAll(LinkedList* this,LinkedList* this2);
 LinkedList* ll_subList(LinkedList* this,int from,int to);
 LinkedList* ll_clone(LinkedList* this);
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order);
-void ll_starIter (LinkedList* this);
+void ll_startIter (LinkedList* this, Node* first);
 void* ll_getNext();
 void* ll_filter(void* this,int (*pFunc)(void*));
+int resetIterator(LinkedList* this);

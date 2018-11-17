@@ -1,0 +1,39 @@
+Biblioteca LinkedList
+
+2.1 Función ll_newLinkedList - SE USA
+
+2.2 Función ll_len - SE USA
+
+2.3 Función getNode - SE USA
+
+2.4 Función ll_push - SE USA
+
+2.5 Función ll_add - SE USA
+
+2.6 Función ll_get - SE USA en employee_getNextId
+
+2.7 Función ll_set - SE USA en employee_EditarEmpleado
+
+2.8 Función ll_remove - SE USA
+
+2.9 Función ll_clear - SE USA en controller_deleteAndBackupList
+
+2.10 Función ll_deleteLinkedList SE USA en controller_deleteAndBackupList
+
+2.11 Función ll_indexOf	- SE USA en employee_EditarEmpleado
+
+2.12 Función ll_isEmpty - SE USA para validar en Controller.c
+
+2.13 Función ll_push - SE USA en employee_reincorporarEmpleado
+
+2.14 Función ll_pop - SE USA en employee_delete
+
+2.15 Función ll_contains - SE USA para validar en Controller.c
+
+2.16 Función ll_containsAll - SE USA para validar en Controller.c
+
+2.17 Función ll_sublist - SE USA en employee_createSubList
+
+2.18 Función ll_clone - SE USA en controller_deleteAndBackupList
+
+2.19 Función ll_sort - SE USA

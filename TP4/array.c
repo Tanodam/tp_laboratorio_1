@@ -55,7 +55,7 @@ void limpiarPantalla()
 */
 void pausarPantalla()
 {
-    printf("Presione ENTER para continuar");
+    printf("\n\nPresione ENTER para continuar");
     myFlush();
     getchar();
 }

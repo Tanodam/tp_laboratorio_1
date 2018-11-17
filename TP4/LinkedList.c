@@ -271,7 +271,7 @@ int ll_clear(LinkedList* this)
 
     if(this != NULL)
     {
-        for(i=0;i<ll_len(this);i++)
+        for(i=ll_len(this)-1;i >= 0;i--)
         {
             ll_remove(this,i);
         }
@@ -327,7 +327,6 @@ int ll_indexOf(LinkedList* this, void* pElement)
 
     return returnAux;
 }
-
 /** \brief Indica si la lista esta o no vacia
  *
  * \param this LinkedList* Puntero a la lista
@@ -354,7 +353,6 @@ int ll_isEmpty(LinkedList* this)
 
     return returnAux;
 }
-
 /** \brief Inserta un nuevo elemento en la lista en la posicion indicada
  *
  * \param this LinkedList* Puntero a la lista
@@ -376,8 +374,6 @@ int ll_push(LinkedList* this, int index, void* pElement)
 
     return returnAux;
 }
-
-
 /** \brief Elimina el elemento de la posicion indicada y retorna su puntero
  *
  * \param this LinkedList* Puntero a la lista
@@ -396,8 +392,6 @@ void* ll_pop(LinkedList* this,int index)
     }
     return returnAux;
 }
-
-
 /** \brief  Determina si la lista contiene o no el elemento pasado como parametro
  *
  * \param this LinkedList* Puntero a la lista
@@ -427,7 +421,6 @@ int ll_contains(LinkedList* this, void* pElement)
 
     return returnAux;
 }
-
 /** \brief  Determina si todos los elementos de la lista (this2)
             estan contenidos en la lista (this)
  *
@@ -560,28 +553,53 @@ int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
     }
     return returnAux;
 }
+/***
+ * \brief Resetea la variable itNode (iterador) setandola en NULL
+ * \param this Es el Linkedlist del cual se realiza el set del itNode
+ * \return Retorna 0 si this es diferente a NULL sino retorna -1
+*/
+int resetIterator(LinkedList* this)
+{
+    int retorno = -1;
 
-void ll_starIter (LinkedList* this)
+    if(this != NULL)
+    {
+        this->itNode = NULL;
+        retorno = 0;
+    }
+    return retorno;
+}
+/***
+ * \brief Inicializa la variable itNode (iterador) del LinkedList
+ * \param this Es el Linkedlist del cual se realiza el set del itNode
+ * \param first Es el Nodo con el cual se inicializa la variable itNode
+ * \return Retorna 0 si this y first no son NULL sino retorna -1
+*/
+void ll_startIter(LinkedList* this,Node* first)
 {
     if(this != NULL)
     {
         nodoGlobal = this->pFirstNode;
     }
 }
-
+/**
+ * \brief Retorna el elemento del itNode (iterador) y mueve un lugar el itNode
+ * \param this Es el Linkedlist que recibe para recorrer
+ * \return Retorna el elemento si el itNode es diferente a NULL sino retorna NULL
+*/
 void* ll_getNext()
 {
     void* pElemento = nodoGlobal->pElement;
     nodoGlobal = nodoGlobal->pNextNode;
     return pElemento;
 }
-
-/***
-LinkedList* ll_filter(linkedlist* this, (*funcionCriterio))
-Segun criterio se filtran los elementos y se retorna nuevo linkedlist
-con los elementos que cumplen con la funcion pasada como criterio
+/**
+* \brief Se filtran los elementos de una lista que cumplan con un criterio
+* \param this Es el puntero a la LinkedList para filtrar
+* \param pFunc Es el puntero a la función para realizar el filtrado
+* \return Retorna un nuevo Linkedlist con los elementos filtrados o NULL si la lista y la función son NULL
+*
 */
-
 void* ll_filter(void* this,int (*pFunc)(void*))
 {
     LinkedList* subList = NULL;
@@ -602,7 +620,12 @@ void* ll_filter(void* this,int (*pFunc)(void*))
     }
     return subList;
 }
-
+/**
+ * \brief Recibe el LinkedList y ejecuta la funcion recibida con todos los elementos
+ * \param this Es el LinkedList que recibe para recorrer
+ * \param pFunc Es el puntero a la función para ejecutar dentro del mapping
+ * \return Retorna 0 si logra ejecutar la función con todos los elementos sino retorna -1
+*/
 int ll_map(LinkedList* this, int (*pFunc)(void*))
 {
     int retorno = 0;
@@ -611,7 +634,7 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
 
     if(this != NULL && pFunc != NULL)
     {
-        ll_starIter(this);
+        ll_startIter(this,this->pFirstNode);
         do
         {
             pElement = ll_getNext();

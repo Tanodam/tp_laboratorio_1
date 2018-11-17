@@ -9,7 +9,7 @@
 #include "utn.h"
 #define BUFFER 1024
 
-int static Employee_setidDos(Employee* this,char* id);
+int static employee_setidDos(Employee* this,char* id);
 /**
 *\brief Funcion que valida campo
 *\param char* name campo a validar
@@ -79,23 +79,23 @@ static int isValidId(char* id)
     }
     return retorno;
 }
-int employee_filtrarEmpleadosHoras(void* pElemento)
-{
-    int auxHoras = 0;
-    int filtro = -1;
-    utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
-
-    if(pElemento != NULL)
-    {
-        Employee_getHorasTrabajadas(pElemento,&auxHoras);
-        if(auxHoras >= filtro)
-        {
-            return 0;
-        }
-
-    }
-    return 1;
-}
+//int employee_filtrarEmpleadosHoras(void* pElemento)
+//{
+//    int auxHoras = 0;
+//    int filtro = -1;
+//    utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
+//
+//    if(pElemento != NULL)
+//    {
+//        Employee_getHorasTrabajadas(pElemento,&auxHoras);
+//        if(auxHoras >= filtro)
+//        {
+//            return 0;
+//        }
+//
+//    }
+//    return 1;
+//}
 ///--------------------------------------------------------------ORDENAR-----------------------------------------------------------------------------
 /**
 *\brief Funcion maestra de ordenamiento, ejecuta switch que permite al usuario seleccionar criterio[NOMBRE - SUELDO - ID] y orden [ASCENDENTE - DESCENDENTE]
@@ -109,24 +109,25 @@ void seleccionarCriterioOrdenamiento(void* pArrayListEmployee)
     limpiarPantalla();
     printf("\n******************************\nEL ORDENAMIENTO PUEDE DEMORAR!\n******************************\n");
     utn_getEntero(&opcion,2,"\nSELECCIONE EL CRITERIO DE ORDENAMIENTO\n1. NOMBRE\n2. SUELDO\n3. ID\n4. Volver\n", "\nOPCION INVALIDA\n",1,4);
-    if(opcion >= 1 || opcion < 4)
+    if(opcion >= 1 && opcion < 4)
     {
         utn_getEntero(&orden,2,"\nSELECCIONE EL ORDEN \n[1] ASCENDENTE - [0] DESCENDENTE\n", "\nOPCION INVALIDA\n",0,1);
 
         switch(opcion)
         {
         case 1:
-            ll_sort(pArrayListEmployee,Employee_criterioNombre,orden);
+            ll_sort(pArrayListEmployee,employee_criterioNombre,orden);
+            printf("\nORDENAMIENTO FINALIZADO");
             break;
         case 2:
-            ll_sort(pArrayListEmployee,Employee_criterioSueldo,orden);
+            ll_sort(pArrayListEmployee,employee_criterioSueldo,orden);
+            printf("\nORDENAMIENTO FINALIZADO");
             break;
         case 3:
-            ll_sort(pArrayListEmployee,Employee_criterioID,orden);
+            ll_sort(pArrayListEmployee,employee_criterioID,orden);
+            printf("\nORDENAMIENTO FINALIZADO");
             break;
         }
-        printf("\nORDENAMIENTO FINALIZADO");
-
     }
 }
 /**
@@ -137,12 +138,24 @@ void seleccionarCriterioOrdenamiento(void* pArrayListEmployee)
 *        [-1] si thisA->sueldo es menor a thisB->sueldo
 *        [0] si thisA->sueldo es igual a thisB->sueldo
 */
-int Employee_criterioSueldo(void* thisA, void* thisB)
+int employee_criterioSueldo(void* thisA, void* thisB)
 {
     int retorno = 0;
     if(((Employee*)thisA)->sueldo > ((Employee*)thisB)->sueldo)
     {
-        retorno = 1;
+        retorno =//int controller_filter(LinkedList* pArrayListEmployee)
+//{
+//    int retorno = -1;
+//    LinkedList* sublist;
+//    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
+//    {
+//        sublist = ll_filter(pArrayListEmployee,employee_filtrarEmpleadosHoras);
+//        printf("%d", ll_len(sublist));
+//        retorno = 0;
+//    }
+//    return retorno;
+//}
+ 1;
     }
     if(((Employee*)thisA)->sueldo < ((Employee*)thisB)->sueldo)
     {
@@ -159,7 +172,7 @@ int Employee_criterioSueldo(void* thisA, void* thisB)
 *        [-1] si thisA->ID es menor a thisB->ID
 *        [0] si thisA->ID es igual a thisB->ID
 */
-int Employee_criterioID(void* thisA, void* thisB)
+int employee_criterioID(void* thisA, void* thisB)
 {
     int retorno = 0;
     if(((Employee*)thisA)->id > ((Employee*)thisB)->id)
@@ -181,14 +194,14 @@ int Employee_criterioID(void* thisA, void* thisB)
 *        [-1] si bufferNombreUno es menor a bufferNombreDos
 *        [0] si bufferNombreUno es igual a bufferNombreDos
 */
-int Employee_criterioNombre(void* thisA,void* thisB)
+int employee_criterioNombre(void* thisA,void* thisB)
 {
     int retorno = 0;
     char bufferNombreUno[BUFFER];
     char bufferNombreDos[BUFFER];
 
-    Employee_getNombre(((Employee*)thisA),bufferNombreUno);
-    Employee_getNombre(((Employee*)thisB),bufferNombreDos);
+    employee_getNombre(((Employee*)thisA),bufferNombreUno);
+    employee_getNombre(((Employee*)thisB),bufferNombreDos);
 
     if(strcmp(bufferNombreUno,bufferNombreDos) < 0)
     {
@@ -218,13 +231,13 @@ int employee_mostrar(Employee* this)
 
     if(this != NULL)
     {
-        Employee_getId(this,&auxiliarId);
+        employee_getId(this,&auxiliarId);
         if(auxiliarId != -1)
         {
-            Employee_getNombre(this,auxiliarNombre);
-            Employee_getId(this,&auxiliarId);
-            Employee_getHorasTrabajadas(this,&auxiliaHorasTrabajadas);
-            Employee_getSueldo(this,&auxiliarSueldo);
+            employee_getNombre(this,auxiliarNombre);
+            employee_getId(this,&auxiliarId);
+            employee_getHorasTrabajadas(this,&auxiliaHorasTrabajadas);
+            employee_getSueldo(this,&auxiliarSueldo);
 
             retorno = 0;
             printf("ID: %d\nNombre: %s\nHoras trabajadas: %dhs\nSueldo: $%d",auxiliarId,auxiliarNombre,auxiliaHorasTrabajadas,auxiliarSueldo);
@@ -237,7 +250,7 @@ int employee_mostrar(Employee* this)
 *\return THIS si se pudo reservar memoria para el empleado
 *        NULL si no se pudo reservar memoria
 */
-Employee* Employee_new()
+Employee* employee_new()
 {
     Employee* this = NULL;
     this=malloc(sizeof(Employee));
@@ -257,7 +270,7 @@ Employee* Employee_new()
 *\param int idIngresado es el ID a encontrar
 *\return auxiliarEmpleado si encontre el empleado - NULL si no lo encontre
 */
-Employee* Employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
+Employee* employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
 {
     Employee* retorno = NULL;
     Employee* auxiliarEmpleado;
@@ -269,7 +282,7 @@ Employee* Employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
         for(indice=0; indice<ll_len(pArrayListEmployee); indice++)
         {
             auxiliarEmpleado = ll_get(pArrayListEmployee,indice);///En cada iteracion me guardo el empleado completo
-            Employee_getId(auxiliarEmpleado,&auxiliarID);///Saco el ID del empleado
+            employee_getId(auxiliarEmpleado,&auxiliarID);///Saco el ID del empleado
             if(auxiliarID == idIngresado) /// Comparo ID's
             {
                 retorno = auxiliarEmpleado;
@@ -285,7 +298,7 @@ Employee* Employee_getById(LinkedList* pArrayListEmployee,int idIngresado)
 *\param LinkedList* pArrayListEmployee es la lista donde se almacenan los empleados
 *\return [0]= Exito y [-1]= ERROR
 */
-int Employee_editarEmpleado(void* pArrayListEmployee)
+int employee_editarEmpleado(void* pArrayListEmployee)
 {
     Employee* this = NULL;
     Employee* auxEmpleado;
@@ -300,9 +313,8 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
         ingresoTeclado("\nIngrese el ID a buscar ","ERROR!",bufferID,BUFFER,isValidId,2); ///Pido el ID y valido que sea un ID valido mediante puntero a la funcion Is ValidId
         idIngresado = atoi(bufferID); ///Casteo el ID a int para usar la funcion getById
         limpiarPantalla();
-        this = Employee_getById(pArrayListEmployee,idIngresado); ///Guardo en this el empleado encontrado para editar
-        index = ll_indexOf(pArrayListEmployee,this);
-
+        this = employee_getById(pArrayListEmployee,idIngresado); ///Guardo en this el empleado encontrado para editar
+        index = ll_indexOf(pArrayListEmployee,this); /// Guardo el index el empleado actual para despues pisarlo con el ll_push
         if(this != NULL && ll_contains(pArrayListEmployee, this))
         {
             printf("\nID ENCONTRADO\n");
@@ -317,13 +329,13 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
                 switch(opcion)
                 {
                 case 1 :
-                    Employee_modificarEmpleado(auxEmpleado,"\nNOMBRE\n",isValidName,Employee_setNombre);///Pido nombre, valido y seteo en el campo
+                    employee_modificarEmpleado(auxEmpleado,"\nNOMBRE\n",isValidName,employee_setNombre);///Pido nombre, valido y seteo en el campo
                     break;
                 case 2 :
-                    Employee_modificarEmpleado(auxEmpleado,"\nHORAS TRABAJADAS\n",isValidHoras,Employee_setHorasTrabajadas);///Pido horas trabajadas, valido y seteo en el campo
+                    employee_modificarEmpleado(auxEmpleado,"\nHORAS TRABAJADAS\n",isValidHoras,employee_setHorasTrabajadas);///Pido horas trabajadas, valido y seteo en el campo
                     break;
                 case 3 :
-                    Employee_modificarEmpleado(auxEmpleado,"\nSUELDO\n",isValidSueldo,Employee_setSueldo);///Pido sueldo, valido y seteo en el campo
+                    employee_modificarEmpleado(auxEmpleado,"\nSUELDO\n",isValidSueldo,employee_setSueldo);///Pido sueldo, valido y seteo en el campo
                     break;
                 case 4 :
                     ll_set(pArrayListEmployee,index,auxEmpleado);
@@ -347,7 +359,7 @@ int Employee_editarEmpleado(void* pArrayListEmployee)
 */
 Employee* employee_copy(Employee* source)
 {
-    Employee* destination = Employee_new();
+    Employee* destination = employee_new();
     char id[BUFFER];
     char horas[BUFFER];
     char sueldo[BUFFER];
@@ -357,10 +369,10 @@ Employee* employee_copy(Employee* source)
         sprintf(id,"%d",source->id);
         sprintf(horas,"%d",source->horasTrabajadas);
         sprintf(sueldo,"%d",source->sueldo);
-        Employee_setNombre(destination,source->nombre);
-        Employee_setHorasTrabajadas(destination,horas);
-        Employee_setSueldo(destination,sueldo);
-        Employee_setidDos(destination,id);
+        employee_setNombre(destination,source->nombre);
+        employee_setHorasTrabajadas(destination,horas);
+        employee_setSueldo(destination,sueldo);
+        employee_setidDos(destination,id);
     }
     return destination;
 }
@@ -372,7 +384,7 @@ Employee* employee_copy(Employee* source)
 *\param int (*set)(Employee*,char*) puntero a la funcion que setea el campo
 *\return [0] = Exito y [-1] ERROR
 */
-int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(char*),int (*set)(Employee*,char*))
+int employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(char*),int (*set)(Employee*,char*))
 {
     int retorno = -1;
     char opcion[2];
@@ -400,22 +412,22 @@ int Employee_modificarEmpleado(Employee* this, char* mensaje, int (*validacion)(
 *\param char* sueldoStr Sueldo
 *\return THIS para realizar el ll_add y NULL si hubo algun error en las validaciones
 */
-Employee* Employee_newConParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
+Employee* employee_newConParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
 {
     Employee* this;
-    this=Employee_new();
+    this=employee_new();
     if(isValidName(nombreStr) && isValidHoras(horasTrabajadasStr) && isValidSueldo(sueldoStr) && isValidId(idStr))
     {
-        Employee_setNombre(this,nombreStr);
-        Employee_setId(this,idStr);
-        Employee_setHorasTrabajadas(this,horasTrabajadasStr);
-        Employee_setSueldo(this,sueldoStr);
+        employee_setNombre(this,nombreStr);
+        employee_setId(this,idStr);
+        employee_setHorasTrabajadas(this,horasTrabajadasStr);
+        employee_setSueldo(this,sueldoStr);
         return this;
     }
     else
     {
         printf("\nHubo un error en la carga\n");
-        Employee_delete(this);
+        employee_delete(this);
     }
 
     return NULL;
@@ -425,7 +437,7 @@ Employee* Employee_newConParametros(char* idStr,char* nombreStr,char* horasTraba
 *\param tihs Es el elemento a eliminar
 *\return Retorna 0 si logra liberar sino retorna -1
 */
-int Employee_delete(Employee* this)
+int employee_delete(Employee* this)
 {
     int retorno = -1;
     if(this != NULL)
@@ -452,7 +464,7 @@ int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja)
     if(!ingresoTeclado("\nINGRESE EL ID DEL EMPLEADO A BORRAR ","\nERROR!",bufferId,BUFFER,isValidId,2))
     {
         idIngresado = atoi(bufferId); ///Casteo el ID a int para usar la funcion getById
-        this = Employee_getById(pArrayListEmployee,idIngresado); ///Guardo el empleado completo
+        this = employee_getById(pArrayListEmployee,idIngresado); ///Guardo el empleado completo
         if(this != NULL && ll_contains(pArrayListEmployee, this))///Valido que se haya encontrado un elemento
         {
             employee_mostrar(this); ///Ultima verificacion antes de borrar
@@ -478,18 +490,14 @@ int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja)
  * \param input Array donde se cargará el texto ingresado
  * \return void
  */
-int Employee_nuevoEmpleado(void* pArrayListEmployee)
+int employee_nuevoEmpleado(void* pArrayListEmployee)
 {
     int retorno = -1;
     Employee* this = NULL;
     char bufferNombre[BUFFER];
     char bufferHoras[BUFFER];
     char bufferSueldo[BUFFER];
-    char bufferID[BUFFER];
     int auxiliarHoras, auxiliarSueldo = 0;
-    int auxiliarID = Employee_getNextID(pArrayListEmployee);
-    sprintf(bufferID,"%d",auxiliarID);///Funcion para pasar el ID de int a buffer para el newConParamentros
-    printf("ID: %s",bufferID);
     if(
         !array_getNombre(bufferNombre,1024,"\nINGRESE EL NOMBRE DEL EMPLEADO: \n","ERROR! NOMBRE INVALIDO!",2)&&
         !utn_getEntero(&auxiliarHoras,2,"\nINGRESE LAS HORAS TRABAJADAS DEL EMPLEADO: \n","ERROR! NUMERO INVALIDO",1,10000000)&&
@@ -498,7 +506,7 @@ int Employee_nuevoEmpleado(void* pArrayListEmployee)
     {
         sprintf(bufferHoras,"%d",auxiliarHoras);///Funcion para pasar las horas de int a buffer para el newConParamentros
         sprintf(bufferSueldo,"%d",auxiliarSueldo);///Funcion para pasar el sueldo de int a buffer para el newConParamentros
-        this = Employee_newConParametros(bufferID,bufferNombre,bufferHoras,bufferSueldo);
+        this = employee_newConParametros("0",bufferNombre,bufferHoras,bufferSueldo);
         if(this != NULL)
         {
             retorno = 0;
@@ -506,7 +514,7 @@ int Employee_nuevoEmpleado(void* pArrayListEmployee)
         }
         else
         {
-            Employee_delete(this);
+            employee_delete(this);
         }
     }
     return retorno;
@@ -531,7 +539,7 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
             !ingresoTeclado("\nINGRESE EL ID DEL EMPLEADO A REINCORPORAR ","\nERROR!",bufferId,BUFFER,isValidId,2))
     {
         idIngresado = atoi(bufferId);
-        auxEmpleadoAReincorporar = Employee_getById(listaEmpleadosBaja,idIngresado); ///Obtengo el usuario a reincorporar
+        auxEmpleadoAReincorporar = employee_getById(listaEmpleadosBaja,idIngresado); ///Obtengo el usuario a reincorporar
         if(ll_contains(listaEmpleadosBaja,auxEmpleadoAReincorporar) && auxEmpleadoAReincorporar != NULL)
         {
             employee_mostrar(auxEmpleadoAReincorporar);
@@ -540,9 +548,9 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
             {
                 do
                 {
-                    auxEmpleadoAnterior = Employee_getById(pArrayListEmployee,idIngresado-1);///Busco el empleado anterior en la nomina de acitvos
+                    auxEmpleadoAnterior = employee_getById(pArrayListEmployee,idIngresado-1);///Busco el empleado anterior en la nomina de acitvos
                     idIngresado--;///Si el empleado anterior es NULL, busco el anterior al anterior.
-                    //printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
+                    printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
                 }
                 while(auxEmpleadoAnterior == NULL); ///Itero hasta encontrar un empleado distinto de NULL
 
@@ -556,31 +564,24 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
     return retorno;
 }
 /**
- * \brief Funcion hecha en clase para encontrar automaticamente el proximo ID, se recorre todo el Linked List
- *        guardando en cada iteracion el ID del empleado, al final del FOR devuelvo ultimo ID + 1
- * \param void* pArrayListEmployee lista a reccorer
- * \return int auxiliarID para asignar - [-1] ERROR
+ * \brief Incrementa el nuevo Id del empleado en 1, empezando desde 0 con el metodo static.
+ *
+ * \return Int Devuelve el nuevo Id.
  */
-int Employee_getNextID(void* pArrayListEmployee)
+int employee_getNextId()
 {
-    Employee* auxiliarEmpleado = NULL;
-    int retorno = -1;
-    int indice = 0;
-    int auxiliarID = 0;
-
-    if(pArrayListEmployee != NULL)
-    {
-        for(indice=0; indice<ll_len(pArrayListEmployee); indice++) ///Recorro todo el LinkedList
-        {
-            auxiliarEmpleado = ll_get(pArrayListEmployee,indice);///Obtengo cada empleado
-            Employee_getId(auxiliarEmpleado,&auxiliarID);///Obtengo el ID del empleado
-        }
-        retorno = auxiliarID+1;///Devuelvo el ultimo ID encontrado + 1 para asignarlo al proximo
-    }
-    return retorno;
+    static int ultimoId = -1;
+    ultimoId++;
+    return ultimoId;
 }
 ///--------------------------------------------SETTERS----------------------------------------------------------------------------
-int static Employee_setidDos(Employee* this,char* id)
+/**
+ * \brief Funcion que setea el campo ID de manera arcaica, se utiliza en el employee_copy
+ * \param Employee* this Empleado al que se le va a setear el ID
+ * \param char* id string del ID a setear, se realiza un atoi antes del seteo
+ * \return [0] EXITO - [-1] ERROR
+ */
+int static employee_setidDos(Employee* this,char* id)
 {
     int retorno=-1;
     int idToInt;
@@ -599,14 +600,14 @@ int static Employee_setidDos(Employee* this,char* id)
  * \param char* id string del ID a setear, se realiza un atoi antes del seteo
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_setId(Employee* this,char* id)
+int employee_setId(Employee* this,char* id)
 {
     int retorno = -1;
-    static int proximoId= -1;
+    static int proximoId= 0;
     int idToInt = 0;
     idToInt=atoi(id); ///Casteo para cumplir con el campo int de la estructura Employee
 
-    if(this!=NULL && idToInt==-1)
+    if(this!=NULL && idToInt==0)
     {
         proximoId++;
         this->id=proximoId;
@@ -618,6 +619,12 @@ int Employee_setId(Employee* this,char* id)
         this->id=proximoId;
         retorno=0;
     }
+//    if(idToInt==0)
+//    {
+//        proximoId++;
+//        this->id=proximoId;
+//        retorno=0;
+//    }
     return retorno;
 }
 /**
@@ -626,7 +633,7 @@ int Employee_setId(Employee* this,char* id)
  * \param char* nombre string del nombre a setear
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_setNombre(Employee* this,char* nombre)
+int employee_setNombre(Employee* this,char* nombre)
 {
     int retorno=-1;
     if(this!=NULL && nombre!=NULL)
@@ -642,7 +649,7 @@ int Employee_setNombre(Employee* this,char* nombre)
  * \param char* horasTrabajadas string de horasTrabajadas a setear, se realiza un atoi antes del seteo
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas)
+int employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas)
 {
     int retorno=-1;
     int horasTrabajadasToInt;
@@ -661,7 +668,7 @@ int Employee_setHorasTrabajadas(Employee* this,char* horasTrabajadas)
  * \param char* sueldo string de sueldo a setear, se realiza un atoi antes del seteo
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_setSueldo(Employee* this,char* sueldo)
+int employee_setSueldo(Employee* this,char* sueldo)
 {
     int retorno=-1;
     int sueldoToInt=0;
@@ -718,7 +725,7 @@ void* employee_subList(void* pArrayLinkedList)
  * \param int* sueldo Puntero auxiliar a int donde se va a almacenar la direccion de memoria del campo sueldo del usuario
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_getSueldo(Employee* this,int* sueldo)
+int employee_getSueldo(Employee* this,int* sueldo)
 {
     int retorno=-1;
     if(this!=NULL)
@@ -734,7 +741,7 @@ int Employee_getSueldo(Employee* this,int* sueldo)
  * \param char* nombre string donde se va a almacenar el campo sueldo del nombre
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_getNombre(Employee* this,char* nombre)
+int employee_getNombre(Employee* this,char* nombre)
 {
     int retorno=-1;
     if(this!=NULL && nombre!=NULL)
@@ -750,7 +757,7 @@ int Employee_getNombre(Employee* this,char* nombre)
  * \param int* id Puntero auxiliar a int donde se va a almacenar la direccion de memoria del campo id del usuario
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_getId(Employee* this,int* id)
+int employee_getId(Employee* this,int* id)
 {
     int retorno=-1;
     if(this!=NULL)
@@ -766,7 +773,7 @@ int Employee_getId(Employee* this,int* id)
  * \param int* horasTrabajadas Puntero auxiliar a int donde se va a almacenar la direccion de memoria del campo horasTrabajadas del usuario
  * \return [0] EXITO - [-1] ERROR
  */
-int Employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
+int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 {
     int retorno=-1;
     if(this!=NULL)
