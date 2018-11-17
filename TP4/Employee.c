@@ -80,21 +80,20 @@ static int isValidId(char* id)
 }
 int employee_filtrarEmpleadosHoras(void* pElemento)
 {
-    int retorno = -1;
     int auxHoras = 0;
     int filtro = -1;
-    //utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
+    utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
 
     if(pElemento != NULL)
     {
         Employee_getHorasTrabajadas(pElemento,&auxHoras);
-        if(auxHoras >= 50)
+        if(auxHoras >= filtro)
         {
-            retorno = 0;
+            return 0;
         }
 
     }
-    return retorno;
+    return 1;
 }
 ///--------------------------------------------------------------ORDENAR-----------------------------------------------------------------------------
 /**
@@ -125,7 +124,7 @@ void seleccionarCriterioOrdenamiento(void* pArrayListEmployee)
             ll_sort(pArrayListEmployee,Employee_criterioID,orden);
             break;
         }
-    printf("\nORDENAMIENTO FINALIZADO");
+        printf("\nORDENAMIENTO FINALIZADO");
 
     }
 }
@@ -424,7 +423,7 @@ int employee_eliminarEmpleado(void* pArrayListEmployee,void* listaEmpleadosBaja)
     {
         idIngresado = atoi(bufferId); ///Casteo el ID a int para usar la funcion getById
         this = Employee_getById(pArrayListEmployee,idIngresado); ///Guardo el empleado completo
-        if(this != NULL)///Valido que se haya encontrado un elemento
+        if(this != NULL && ll_contains(pArrayListEmployee, this))///Valido que se haya encontrado un elemento
         {
             employee_mostrar(this); ///Ultima verificacion antes de borrar
             array_getLetras(opcion,2,"\nDesea dar de baja? S/N ","\nError",2);
@@ -478,6 +477,37 @@ int Employee_nuevoEmpleado(void* pArrayListEmployee)
         else
         {
             Employee_delete(this);
+        }
+    }
+    return retorno;
+}
+int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleadosBaja)
+{
+    int retorno = -1;
+    Employee* auxEmpleadoAnterior;
+    Employee* auxEmpleadoAReincorporar;
+    int indexAnterior = 0;
+    char bufferId[1024];
+    int idIngresado = 0;
+
+    if(!ll_isEmpty(listaEmpleadosBaja) && !ll_isEmpty(pArrayListEmployee)&&
+            !ingresoTeclado("\nINGRESE EL ID DEL EMPLEADO A REINCORPORAR ","\nERROR!",bufferId,1024,isValidId,2))
+    {
+        idIngresado = atoi(bufferId);
+        auxEmpleadoAReincorporar = Employee_getById(listaEmpleadosBaja,idIngresado);
+        if(ll_contains(listaEmpleadosBaja,auxEmpleadoAReincorporar) && auxEmpleadoAReincorporar != NULL)
+        {
+            do
+            {
+                auxEmpleadoAnterior = Employee_getById(pArrayListEmployee,idIngresado-1);///
+                idIngresado--;
+            }
+            while(auxEmpleadoAnterior == NULL);
+
+            indexAnterior = ll_indexOf(pArrayListEmployee,auxEmpleadoAnterior);///Me guardo el index del empleado anterior
+            ll_push(pArrayListEmployee, indexAnterior+1,auxEmpleadoAReincorporar);///Hago un push en el indice del anterior + 1
+            ll_remove(listaEmpleadosBaja,ll_indexOf(listaEmpleadosBaja,auxEmpleadoAReincorporar));
+            retorno = 0;
         }
     }
     return retorno;

@@ -36,5 +36,6 @@ void seleccionarCriterioOrdenamiento(void* pArrayListEmployee);
 
 int ll_map(void* this, int (*pFunc)(void*));
 int employee_filtrarEmpleadosHoras(void* pElemento);
+int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleadosBaja);
 
 #endif // employee_H_INCLUDED

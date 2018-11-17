@@ -583,12 +583,12 @@ void* ll_filter(void* this,int (*pFunc)(void*))
     LinkedList* subList = NULL;
     int i;
     void* pElement;
-
     if(this != NULL && pFunc != NULL)
     {
         subList = ll_newLinkedList();
-        for(i=0; ll_len(this)-1; i++)
+        for(i=0;i<ll_len(this)-1; i++)
         {
+            printf("....");
             pElement = ll_get(this,i);
             if(!pFunc(pElement))
             {

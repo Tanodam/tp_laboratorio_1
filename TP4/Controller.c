@@ -6,6 +6,8 @@
 #include "parser.h"
 #include "utn.h"
 #include "array.h"
+#include "Controller.h"
+
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  * \param path char* ruta del archivo
@@ -15,7 +17,7 @@
 int controller_loadFromText(char* path, LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
-    if(!ll_len(pArrayListEmployee))
+    if(ll_isEmpty(pArrayListEmployee))
     {
         FILE* pArchivo = fopen(path,"r");
         retorno = parser_EmployeeFromText(pArchivo,pArrayListEmployee);
@@ -41,7 +43,7 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
     int retorno = -1;
     FILE* pArchivo;
     pArchivo = fopen(path,"rb");
-    if(!ll_len(pArrayListEmployee))
+    if(ll_isEmpty(pArrayListEmployee))
     {
 
         retorno = parser_EmployeeFromBinary(pArchivo,pArrayListEmployee);
@@ -69,7 +71,7 @@ int controller_loadFromBinary(char* path, LinkedList* pArrayListEmployee)
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         if(!Employee_nuevoEmpleado(pArrayListEmployee))
         {
@@ -92,7 +94,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
 
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         if(!Employee_editarEmpleado(pArrayListEmployee))
         {
@@ -117,7 +119,7 @@ int controller_removeEmployee(LinkedList* pArrayListEmployee, LinkedList* listaE
 {
     int retorno = -1;
 
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         if(!employee_eliminarEmpleado(pArrayListEmployee, listaEmpleadosBaja))
         {
@@ -145,7 +147,7 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
     int horasTrabajadas = 0;
     int sueldo = 0;
     int id=0;
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         retorno = 0;
         for(i=0; i<ll_len(pArrayListEmployee); i++)
@@ -169,18 +171,24 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
  * \param pArrayListEmployee LinkedList* lista que se va a mostrar
  * \return [0] Exito y [-1] Error
  */
-int controller_deleteList(LinkedList* pArrayListEmployee)
+int controller_deleteAndBackupList(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
     char opcion[2];
+    LinkedList* listaBackup;
 
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         array_getLetras(opcion,2,"\n****¿ESTAS SEGURO QUE QUERES BORRAR TODOS LOS EMPLEADOS?**** ELIJA S/N\n","\nERROR!",2);
         if(!strcasecmp(opcion,"s"))
         {
+            listaBackup = ll_clone(pArrayListEmployee);
+        if(ll_containsAll(pArrayListEmployee,listaBackup))
+        {
             ll_deleteLinkedList(pArrayListEmployee);
             printf("\nLISTA BORRADA");
+            controller_saveAsText("dataBackup.csv",listaBackup);
+        }
             retorno = 0;
         }
     }
@@ -198,7 +206,7 @@ int controller_deleteList(LinkedList* pArrayListEmployee)
 int controller_sortEmployee(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         seleccionarCriterioOrdenamiento(pArrayListEmployee);
         retorno = 0;
@@ -209,15 +217,31 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
     }
     return retorno;
 }
+int controller_reincorporarEmployee(LinkedList* pArrayListEmployee, LinkedList* listaEmpleadosBaja)
+{
+    int retorno = -1;
 
+    if(pArrayListEmployee != NULL && listaEmpleadosBaja != NULL  &&
+       !employee_reincorporarEmpleado(pArrayListEmployee,listaEmpleadosBaja))
+    {
+            retorno = 0;
+            printf("\nRE-INCORPORACION COMPLETADA");
+    }
+    else
+    {
+        printf("\nRE-INCORPORACION NO COMPLETADA");
+    }
+
+    return retorno;
+}
 int controller_filter(LinkedList* pArrayListEmployee)
 {
     int retorno = -1;
     LinkedList* sublist;
-    if(pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
     {
         sublist = ll_filter(pArrayListEmployee,employee_filtrarEmpleadosHoras);
-        ll_map(sublist,employee_mostrar);
+        printf("%d", ll_len(sublist));
         retorno = 0;
     }
     return retorno;
@@ -231,7 +255,7 @@ int controller_filter(LinkedList* pArrayListEmployee)
  */
 int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
 {
-    FILE* pArchivo = fopen(path,"w+");
+    FILE* pArchivo = fopen(path,"w");
     int retorno = -1;
     if(pArchivo != NULL && !parser_SaveToText(pArchivo,pArrayListEmployee) &&
             pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
@@ -335,7 +359,7 @@ void controller_init()
             controller_removeEmployee(listaEmpleados, listaEmpleadosBaja);
             break;
         case 6:
-            controller_deleteList(listaEmpleados);
+            controller_deleteAndBackupList(listaEmpleados);
             break;
         case 7:
             controller_ListEmployee(listaEmpleados);
@@ -347,14 +371,15 @@ void controller_init()
             controller_sortEmployee(listaEmpleados);
             break;
         case 10:
-            controller_filter(listaEmpleados);
+            //controller_filter(listaEmpleados);
+            controller_reincorporarEmployee(listaEmpleados,listaEmpleadosBaja);
             break;
         case 11:
             controller_saveAsText("data.csv",listaEmpleados);
             controller_saveAsText("dataBajas.csv",listaEmpleadosBaja);
             break;
         case 12:
-            controller_saveAsBinary("data.dat",listaEmpleados);
+            //controller_saveAsBinary("data.dat",listaEmpleados);
             controller_saveAsBinary("dataBajas.dat",listaEmpleadosBaja);
             break;
         case 13:
