@@ -19,6 +19,7 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
     char bufferId[BUFFER];
     char bufferSueldo[BUFFER];
     int retorno = -1;
+    char prueba[1024];
 
 
     if(pFile != NULL)
@@ -27,7 +28,7 @@ int parser_EmployeeFromText(FILE* pFile, LinkedList* pArrayListEmployee)
         while(!feof(pFile))
         {
             fgets(string,sizeof(string),pFile);
-            if(strlen(string) > 5)
+            if(strlen(string) > 5 && prueba != NULL)
             {
                 strncpy(bufferId,strtok(string, ","),BUFFER);
                 strncpy(bufferNombre,strtok(NULL,","),BUFFER);

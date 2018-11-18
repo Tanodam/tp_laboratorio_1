@@ -79,23 +79,6 @@ static int isValidId(char* id)
     }
     return retorno;
 }
-//int employee_filtrarEmpleadosHoras(void* pElemento)
-//{
-//    int auxHoras = 0;
-//    int filtro = -1;
-//    utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
-//
-//    if(pElemento != NULL)
-//    {
-//        Employee_getHorasTrabajadas(pElemento,&auxHoras);
-//        if(auxHoras >= filtro)
-//        {
-//            return 0;
-//        }
-//
-//    }
-//    return 1;
-//}
 ///--------------------------------------------------------------ORDENAR-----------------------------------------------------------------------------
 /**
 *\brief Funcion maestra de ordenamiento, ejecuta switch que permite al usuario seleccionar criterio[NOMBRE - SUELDO - ID] y orden [ASCENDENTE - DESCENDENTE]
@@ -143,19 +126,7 @@ int employee_criterioSueldo(void* thisA, void* thisB)
     int retorno = 0;
     if(((Employee*)thisA)->sueldo > ((Employee*)thisB)->sueldo)
     {
-        retorno =//int controller_filter(LinkedList* pArrayListEmployee)
-//{
-//    int retorno = -1;
-//    LinkedList* sublist;
-//    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
-//    {
-//        sublist = ll_filter(pArrayListEmployee,employee_filtrarEmpleadosHoras);
-//        printf("%d", ll_len(sublist));
-//        retorno = 0;
-//    }
-//    return retorno;
-//}
- 1;
+        retorno = 1;
     }
     if(((Employee*)thisA)->sueldo < ((Employee*)thisB)->sueldo)
     {
@@ -214,8 +185,43 @@ int employee_criterioNombre(void* thisA,void* thisB)
     }
     return retorno;
 }
-
 ///----------------------------------------------------------------------------------------------------------------------------
+/**
+ * \brief Funcion que crea una sublista en base al criterio seleccionado por el usuario
+ * \param void* pArrayLinkedList lista a partir de la cual se va a generar la sublista
+ * \return [subList] si pudo generar la subliista correctamente - [NULL] ERROR
+ */
+void* employee_subList(void* pArrayLinkedList)
+{
+    int option;
+    LinkedList* subList = NULL;
+    limpiarPantalla();
+    utn_getEntero(&option,2,"1. Crear una lista de los primeros 250 empleados\n"
+                            "2. Crear una una lista desde el empleado 250 hasta el 500\n"
+                            "3. Crear una una lista desde el empleado 500 hasta el 750\n"
+                            "4. Crear una una lista desde el empleado 750 hasta el ultimo\n"
+                            "5. Salir\nINGRESE EL CRITERIO DESEADO\nOpcion: ", "ERROR! INGRESE UNA OPCION VALIDA (1-5)",1,5);
+    switch(option)
+    {
+        case 1:
+            subList = ll_subList(pArrayLinkedList,0,250);
+            break;
+        case 2:
+            subList = ll_subList(pArrayLinkedList,250,500);
+            break;
+        case 3:
+            subList = ll_subList(pArrayLinkedList,500,750);
+            break;
+        case 4:
+            subList = ll_subList(pArrayLinkedList,750,ll_len(pArrayLinkedList));
+            break;
+        case 5:
+            break;
+        default:
+            break;
+    }
+    return subList;
+}
 /**
 *\brief Funcion que muestra todos los campos de una estructura
 *\param this es el elemento seleccionado para mostrar
@@ -552,7 +558,7 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
                 {
                     auxEmpleadoAnterior = employee_getById(pArrayListEmployee,idIngresado-1);///Busco el empleado anterior en la nomina de acitvos
                     idIngresado--;///Si el empleado anterior es NULL, busco el anterior al anterior.
-                    //printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
+                   // printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
                 }
                 while(auxEmpleadoAnterior == NULL); ///Itero hasta encontrar un empleado distinto de NULL
 
@@ -564,17 +570,6 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
         }
     }
     return retorno;
-}
-/**
- * \brief Incrementa el nuevo Id del empleado en 1, empezando desde 0 con el metodo static.
- *
- * \return Int Devuelve el nuevo Id.
- */
-int employee_getNextId()
-{
-    static int ultimoId = -1;
-    ultimoId++;
-    return ultimoId;
 }
 ///--------------------------------------------SETTERS----------------------------------------------------------------------------
 /**
@@ -688,43 +683,6 @@ int employee_setSueldo(Employee* this,char* sueldo)
     }
     return retorno;
 }
-/**
- * \brief Funcion que crea una sublista en base al criterio seleccionado por el usuario
- * \param Employee* this Empleado al que se le va a setear el sueldo
- * \param char* sueldo string de sueldo a setear, se realiza un atoi antes del seteo
- * \return [0] EXITO - [-1] ERROR
- */
-void* employee_subList(void* pArrayLinkedList)
-{
-    int option;
-    LinkedList* subList = NULL;
-    limpiarPantalla();
-    utn_getEntero(&option,2,"1. Crear una lista de los primeros 250 empleados\n"
-                            "2. Crear una una lista desde el empleado 250 hasta el 500\n"
-                            "3. Crear una una lista desde el empleado 500 hasta el 750\n"
-                            "4. Crear una una lista desde el empleado 750 hasta el ultimo\n"
-                            "5. Salir\nINGRESE EL CRITERIO DESEADO\nOpcion: ", "ERROR! INGRESE UNA OPCION VALIDA (1-5)",1,5);
-    switch(option)
-    {
-        case 1:
-            subList = ll_subList(pArrayLinkedList,0,250);
-            break;
-        case 2:
-            subList = ll_subList(pArrayLinkedList,250,500);
-            break;
-        case 3:
-            subList = ll_subList(pArrayLinkedList,500,750);
-            break;
-        case 4:
-            subList = ll_subList(pArrayLinkedList,750,ll_len(pArrayLinkedList));
-            break;
-        case 5:
-            break;
-        default:
-            break;
-    }
-    return subList;
-}
 ///--------------------------------------------GETTERS----------------------------------------------------------------------------
 /**
  * \brief Funcion que lee el campo sueldo
@@ -790,3 +748,20 @@ int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
     }
     return retorno;
 }
+//int employee_filtrarEmpleadosHoras(void* pElemento)
+//{
+//    int auxHoras = 0;
+//    int filtro = -1;
+//    utn_getEntero(&filtro,2,"\nIngrese el numero de horas para hacer el filtro ","ERROR!",0,1000);
+//
+//    if(pElemento != NULL)
+//    {
+//        Employee_getHorasTrabajadas(pElemento,&auxHoras);
+//        if(auxHoras >= filtro)
+//        {
+//            return 0;
+//        }
+//
+//    }
+//    return 1;
+//}

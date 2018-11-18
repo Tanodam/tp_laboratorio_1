@@ -19,6 +19,8 @@ Biblioteca LinkedList
 2.9 Función ll_clear - SE USA en controller_deleteAndBackupList
 
 2.10 Función ll_deleteLinkedList SE USA en controller_deleteAndBackupList
+Luego de haber borrado o limpiado la lista se recomienda guardar para que el
+programa ejecute la consulta de archivo back-up al seleccionar la opcion 1.
 
 2.11 Función ll_indexOf	- SE USA en employee_EditarEmpleado
 

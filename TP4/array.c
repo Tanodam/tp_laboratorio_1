@@ -361,6 +361,16 @@ int array_getLetras(char* pArray,int limiteArray,char* mensaje,char* msjError,in
     }
     return retorno;
 }
+/**
+ * \brief Solicita un texto al usuario y lo valida en el momento segun la funcion validacion que se le pase por parametro
+ * \param char* mensaje muestra por pantalla un mensaje
+ * \param char* msjError muestra por pantalla un mensaje de error
+ * \param  char* bufferCampo donde se almacena el string ingresado
+ * \param int limiteArray limite de tamaño
+ * \param  int (*validacionCampo)(char*) puntero a una funcion de validacion
+ * \param int reintentos permitidos
+ * \return Retorna 0 si se pudo pedir y validar string si no retorna error
+ */
 int ingresoTeclado(char* mensaje, char* msjError, char* bufferCampo, int limiteArray, int (*validacionCampo)(char*), int reintentos)
 {
     int retorno = -1;
