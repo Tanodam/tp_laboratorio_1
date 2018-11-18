@@ -497,7 +497,7 @@ int employee_nuevoEmpleado(void* pArrayListEmployee)
     char bufferNombre[BUFFER];
     char bufferHoras[BUFFER];
     char bufferSueldo[BUFFER];
-    int auxiliarHoras, auxiliarSueldo = 0;
+    int auxiliarHoras, auxiliarID, auxiliarSueldo = 0;
     if(
         !array_getNombre(bufferNombre,1024,"\nINGRESE EL NOMBRE DEL EMPLEADO: \n","ERROR! NOMBRE INVALIDO!",2)&&
         !utn_getEntero(&auxiliarHoras,2,"\nINGRESE LAS HORAS TRABAJADAS DEL EMPLEADO: \n","ERROR! NUMERO INVALIDO",1,10000000)&&
@@ -510,6 +510,8 @@ int employee_nuevoEmpleado(void* pArrayListEmployee)
         if(this != NULL)
         {
             retorno = 0;
+            employee_getId(this, &auxiliarID);
+            printf("\nID: %d", auxiliarID);
             ll_add(pArrayListEmployee,this);
         }
         else
@@ -550,7 +552,7 @@ int employee_reincorporarEmpleado(void* pArrayListEmployee, void* listaEmpleados
                 {
                     auxEmpleadoAnterior = employee_getById(pArrayListEmployee,idIngresado-1);///Busco el empleado anterior en la nomina de acitvos
                     idIngresado--;///Si el empleado anterior es NULL, busco el anterior al anterior.
-                    printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
+                    //printf("\nUSUARIO ANTERIOR %p", auxEmpleadoAnterior);
                 }
                 while(auxEmpleadoAnterior == NULL); ///Itero hasta encontrar un empleado distinto de NULL
 
@@ -610,21 +612,26 @@ int employee_setId(Employee* this,char* id)
     if(this!=NULL && idToInt==0)
     {
         proximoId++;
-        this->id=proximoId;
-        retorno=0;
+        this->id=
+        proximoId;
+        retorno = 0;
     }
     else if(idToInt>proximoId)
     {
         proximoId=idToInt;
         this->id=proximoId;
-        retorno=0;
+        retorno = 0;
     }
-//    if(idToInt==0)
-//    {
-//        proximoId++;
-//        this->id=proximoId;
-//        retorno=0;
-//    }
+    else if(idToInt<proximoId)
+    {
+        this->id=idToInt;
+        retorno = 0;
+    }
+    if(idToInt==-1) /// Cuando se borra una lista, hay que resetear el proximoID
+    {
+        proximoId = 0;
+        retorno = 0;
+    }
     return retorno;
 }
 /**

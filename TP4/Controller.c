@@ -172,17 +172,21 @@ int controller_ListEmployee(LinkedList* pArrayListEmployee)
  * \param pArrayListEmployee LinkedList* lista que se va a eliminar o vaciar
  * \return [0] Exito y [-1] Error
  */
-int controller_deleteAndBackupList(LinkedList* pArrayListEmployee)
+int controller_deleteAndBackupList(LinkedList* pArrayListEmployee, LinkedList* listaEmpleadosBaja)
 {
     int retorno = -1;
     int option = 0;
+    Employee* aux = employee_new();
     LinkedList* listaBackup = NULL;
+    LinkedList* listaBackupBajas = NULL;
 
-    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee))
+    if(pArrayListEmployee != NULL && !ll_isEmpty(pArrayListEmployee) &&
+       listaEmpleadosBaja != NULL && !ll_isEmpty(listaEmpleadosBaja))
     {
         do
         {
-            utn_getEntero(&option,2,"\nINGRESE EL METODO DE BORRADO\n1. BORRAR LISTA (CLEAR)"
+            limpiarPantalla();
+            utn_getEntero(&option,2,"INGRESE EL METODO DE BORRADO\n1. BORRAR LISTA (CLEAR)"
                                     "\n2. ELIMINAR LISTA (DELETE)\n3. Salir\nOpcion: ","\nERROR! INGRESE UNA OPCION VALIDA (1-3)",1,3);
             switch(option)
             {
@@ -190,11 +194,16 @@ int controller_deleteAndBackupList(LinkedList* pArrayListEmployee)
                 if(!utn_confirmarLetras("\n****¿ESTAS SEGURO QUE QUERES BORRAR TODOS LOS EMPLEADOS?**** ELIJA S/N\n","\nERROR!",2))
                 {
                     listaBackup = controller_cloneList(pArrayListEmployee);
+                    listaBackupBajas = controller_cloneList(listaEmpleadosBaja);
                     if(ll_containsAll(pArrayListEmployee,listaBackup))
                     {
                         ll_clear(pArrayListEmployee);
+                        ll_clear(listaEmpleadosBaja);
+                        employee_setId(aux,"-1");
                         printf("\nLISTA LIMPIA\n");
                         controller_saveAsText("dataBackup.csv",listaBackup);
+                        controller_saveAsText("dataBackupBajas.csv",listaBackupBajas);
+                        pausarPantalla();
                         retorno = 0;
                     }
                 }
@@ -206,8 +215,11 @@ int controller_deleteAndBackupList(LinkedList* pArrayListEmployee)
                     if(ll_containsAll(pArrayListEmployee,listaBackup))
                     {
                         ll_deleteLinkedList(pArrayListEmployee);
+                        ll_deleteLinkedList(listaEmpleadosBaja);
                         printf("\nLISTA ELIMINADA\n");
                         controller_saveAsText("dataBackup.csv",listaBackup);
+                        controller_saveAsText("dataBackupBajas.csv",listaBackupBajas);
+                        pausarPantalla();
                         retorno = 0;
                     }
                 }
@@ -293,7 +305,7 @@ int controller_reincorporarEmployee(LinkedList* pArrayListEmployee, LinkedList* 
     }
     else
     {
-        printf("\nRE-INCORPORACION NO COMPLETADA");
+        printf("\nNO EXISTE EL ID!\nREVISAR LISTADO DE EMPLEADOS DE BAJA! (Op. 9)\nRE-INCORPORACION NO COMPLETADA!\n");
     }
 
     return retorno;
@@ -312,7 +324,7 @@ int controller_saveAsText(char* path, LinkedList* pArrayListEmployee)
             pArrayListEmployee != NULL && ll_len(pArrayListEmployee) > 0)
     {
         retorno = 0;
-        printf("ARCHIVO %s GUARDADO CON EXITO", path);
+        printf("ARCHIVO %s GUARDADO CON EXITO\n", path);
     }
     else
     {
@@ -417,7 +429,7 @@ void controller_init()
             controller_reincorporarEmployee(listaEmpleados,listaEmpleadosBaja);
             break;
         case 7:
-            controller_deleteAndBackupList(listaEmpleados);
+            controller_deleteAndBackupList(listaEmpleados, listaEmpleadosBaja);
             break;
         case 8:
             controller_ListEmployee(listaEmpleados);
@@ -434,13 +446,13 @@ void controller_init()
         case 12:
             printf("\nACTIVOS\n");
             controller_saveAsText("data.csv",listaEmpleados);
-            printf("\nINACTIVOS\n");
+            printf("\n\nINACTIVOS\n");
             controller_saveAsText("dataBajas.csv",listaEmpleadosBaja);
             break;
         case 13:
-            printf("\nACTIVOS");
+            printf("\nACTIVOS\n");
             controller_saveAsBinary("data.dat",listaEmpleados);
-            printf("\nINACTIVOS");
+            printf("\n\nINACTIVOS\n");
             controller_saveAsBinary("dataBajas.dat",listaEmpleadosBaja);
             break;
         case 14:
